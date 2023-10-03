@@ -30,22 +30,14 @@ while True:
 
     x += dx * SIZE
     y += dy * SIZE
-    next_cell = [(x, y)]
+    next_cell = (x, y)
     
-    if dx != 0 or dy != 0: 
-        snake = next_cell + snake
-        
-        if cut_tail == True: 
+    if dx != 0 or dy != 0:
+        snake = [next_cell] + snake 
+        if next_cell == apple:
+            apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
+        else:
             snake.pop(-1)
-        
-
-    cut_tail = True
-
-    if snake[0] == apple:
-        apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-
-        cut_tail = False
-    print(snake)
 
     if 0 > x or x > 950 or y < 0 or y > 750:
         exit()
