@@ -30,9 +30,10 @@ while True:
 
     x += dx * SIZE
     y += dy * SIZE
+    next_cell = [(x, y)]
     
     if dx != 0 or dy != 0: 
-        snake = [(x, y)] + snake
+        snake = next_cell + snake
         
         if cut_tail == True: 
             snake.pop(-1)
@@ -51,8 +52,8 @@ while True:
     if len(snake) != len(set(snake)):
         exit()
     for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
+        if event.type == pygame.QUIT:
+            exit()
 
     contr = pygame.key.get_pressed()
     if contr [pygame.K_w] and dirs ["W"]:
