@@ -10,7 +10,6 @@ TIMER = 5
 dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-dirs = {"W":True, "D":True, "S":True, "A":True }
 snake = [(x , y)]
 lenght = 1
 
@@ -47,16 +46,13 @@ while True:
         if event.type == pygame.QUIT:
             exit()
 
+    odx, ody = dx, dy
     contr = pygame.key.get_pressed()
-    if contr [pygame.K_w] and dirs ["W"]:
+    if contr [pygame.K_w] and ody != 1:
         dx , dy = 0 , -1
-        dirs = {"W":True, "D":True, "S":False, "A":True }
-    if contr [pygame.K_s] and dirs ["S"]:
+    if contr [pygame.K_s] and ody != -1:
         dx , dy = 0 , 1
-        dirs = {"W":False, "D":True, "S":True, "A":True }
-    if contr [pygame.K_a] and dirs ["A"]:
+    if contr [pygame.K_a] and odx != 1:
         dx , dy = -1 , 0
-        dirs = {"W":True, "D":False, "S":True, "A":True }
-    if contr [pygame.K_d] and dirs ["D"]:
+    if contr [pygame.K_d] and odx != -1:
         dx , dy = 1 , 0
-        dirs = {"W":True, "D":True, "S":True, "A":False }
