@@ -22,11 +22,23 @@ snake = [(x , y)]
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
+lenght = 1
+
+audio_nambers = randrange(0, 2)
+cut_tail = False
+
+pygame.init()
+pygame.mixer.init()
+pygame.mixer.pre_init(44100, -16, 1, 512)
+screen = pygame.display.set_mode((1000, 800))
 time = pygame.time.Clock()
+pygame.mixer.music.load('audio/birds.mp3')
+pygame.mixer.music.play()
 
 apple = get_new_apple_coordinates(snake)
 
 while True:
+    audio_nambers = randrange(0, 3)
     screen.fill(pygame.Color('black'))
     [(pygame.draw.rect(screen, pygame.Color('green'), (i, j, SIZE, SIZE))) for i, j in snake]
     pygame.draw.rect(screen, pygame.Color('red'), (*apple, SIZE, SIZE))
@@ -41,6 +53,16 @@ while True:
         snake = [next_cell] + snake 
         if next_cell == apple:
             apple = get_new_apple_coordinates(snake)
+            # generate_again =True
+            # while generate_again:
+            #     apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
+            #     generate_again = False
+            #     for part in snake:
+            #         if part == apple:
+            #             generate_again = True
+            #             break
+            # apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
+            pygame.mixer.Sound('audio/' + str(audio_nambers) + '.ogg').play()
         else:
             snake.pop(-1)
 
