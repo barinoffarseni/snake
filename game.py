@@ -11,12 +11,9 @@ dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 snake = [(x , y)]
-lenght = 1
-
-cut_tail = False
 
 pygame.init()
-screen = pygame.display.set_mode((1000, 800))
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
 time = pygame.time.Clock()
 
 while True:
@@ -31,14 +28,23 @@ while True:
     y += dy * SIZE
     next_cell = (x, y)
     
+    # после съедания яблока для нового яблока нужно сгенерировать корд которые не пересикаются с каждым элементом змеи 
+    # while True: 
     if dx != 0 or dy != 0:
         snake = [next_cell] + snake 
         if next_cell == apple:
-            apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
+            generate_again =True
+            while generate_again:
+                apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
+                generate_again = False
+                for part in snake:
+                    if part == apple:
+                        generate_again = True
+                        break
         else:
             snake.pop(-1)
 
-    if 0 > x or x > 950 or y < 0 or y > 750:
+    if 0 > x or x > 750 or y < 0 or y > 750:
         exit()
     if len(snake) != len(set(snake)):
         exit()
