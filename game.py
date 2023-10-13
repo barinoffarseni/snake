@@ -28,7 +28,7 @@ audio_nambers = randrange(0, 2)
 pygame.init()
 pygame.mixer.init()
 pygame.mixer.pre_init(44100, -16, 1, 512)
-screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
+
 time = pygame.time.Clock()
 pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
@@ -50,6 +50,8 @@ while True:
     y += dy * SIZE
     next_cell = (x, y)
     
+    # после съедания яблока для нового яблока нужно сгенерировать корд которые не пересикаются с каждым элементом змеи 
+    # while True: 
     if dx != 0 or dy != 0:
         snake = [next_cell] + snake 
         if next_cell == apple:
