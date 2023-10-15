@@ -44,7 +44,7 @@ while True:
         else:
             snake.pop(-1)
 
-    if 0 > x or x > 750 or y < 0 or y > 750:
+    if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_WIDTH - SIZE:
         exit()
     if len(snake) != len(set(snake)):
         exit()
