@@ -10,14 +10,10 @@ TIMER = 5
 dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-dirs = {"W":True, "D":True, "S":True, "A":True }
 snake = [(x , y)]
-lenght = 1
-
-cut_tail = False
 
 pygame.init()
-screen = pygame.display.set_mode((1000, 800))
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
 time = pygame.time.Clock()
 
 while True:
@@ -30,40 +26,39 @@ while True:
 
     x += dx * SIZE
     y += dy * SIZE
+    next_cell = (x, y)
     
-    if dx != 0 or dy != 0: 
-        snake = [(x, y)] + snake
-        
-        if cut_tail == True: 
+    # после съедания яблока для нового яблока нужно сгенерировать корд которые не пересикаются с каждым элементом змеи 
+    # while True: 
+    if dx != 0 or dy != 0:
+        snake = [next_cell] + snake 
+        if next_cell == apple:
+            generate_again =True
+            while generate_again:
+                apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
+                generate_again = False
+                for part in snake:
+                    if part == apple:
+                        generate_again = True
+                        break
+        else:
             snake.pop(-1)
-        
 
-    cut_tail = True
-
-    if snake[0] == apple:
-        apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-
-        cut_tail = False
-    print(snake)
-
-    if 0 > x or x > 950 or y < 0 or y > 750:
+    if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_WIDTH - SIZE:
         exit()
     if len(snake) != len(set(snake)):
         exit()
     for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
+        if event.type == pygame.QUIT:
+            exit()
 
+    odx, ody = dx, dy
     contr = pygame.key.get_pressed()
-    if contr [pygame.K_w] and dirs ["W"]:
+    if contr [pygame.K_w] and ody != 1:
         dx , dy = 0 , -1
-        dirs = {"W":True, "D":True, "S":False, "A":True }
-    if contr [pygame.K_s] and dirs ["S"]:
+    if contr [pygame.K_s] and ody != -1:
         dx , dy = 0 , 1
-        dirs = {"W":False, "D":True, "S":True, "A":True }
-    if contr [pygame.K_a] and dirs ["A"]:
+    if contr [pygame.K_a] and odx != 1:
         dx , dy = -1 , 0
-        dirs = {"W":True, "D":False, "S":True, "A":True }
-    if contr [pygame.K_d] and dirs ["D"]:
+    if contr [pygame.K_d] and odx != -1:
         dx , dy = 1 , 0
-        dirs = {"W":True, "D":True, "S":True, "A":False }
