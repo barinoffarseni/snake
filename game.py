@@ -1,7 +1,7 @@
 import pygame
 from random import randrange
 
-WINDOW_WIDTH = 800
+WINDOW_WIDTH = 200
 SIZE = 50
 
 TIMER = 5 
@@ -16,6 +16,15 @@ pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
 time = pygame.time.Clock()
 
+generate_again =True
+while generate_again:
+    apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
+    generate_again = False
+    for part in snake:
+        if part == apple:
+            generate_again = True
+            break
+        
 while True:
     screen.fill(pygame.Color('black'))
     [(pygame.draw.rect(screen, pygame.Color('green'), (i, j, SIZE, SIZE))) for i, j in snake]
@@ -28,8 +37,6 @@ while True:
     y += dy * SIZE
     next_cell = (x, y)
     
-    # после съедания яблока для нового яблока нужно сгенерировать корд которые не пересикаются с каждым элементом змеи 
-    # while True: 
     if dx != 0 or dy != 0:
         snake = [next_cell] + snake 
         if next_cell == apple:
