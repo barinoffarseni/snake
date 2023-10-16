@@ -22,15 +22,13 @@ snake = [(x , y)]
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
-lenght = 1
 
 audio_nambers = randrange(0, 2)
-cut_tail = False
 
 pygame.init()
 pygame.mixer.init()
 pygame.mixer.pre_init(44100, -16, 1, 512)
-screen = pygame.display.set_mode((1000, 800))
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
 time = pygame.time.Clock()
 pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
@@ -44,6 +42,9 @@ while True:
     pygame.draw.rect(screen, pygame.Color('red'), (*apple, SIZE, SIZE))
     pygame.display.flip()
     time.tick(TIMER)
+
+    if pygame.mixer.music.get_busy() == False:
+        pygame.mixer.music.play()
 
     x += dx * SIZE
     y += dy * SIZE
