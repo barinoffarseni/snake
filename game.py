@@ -1,7 +1,7 @@
 import pygame
 from random import randrange
 
-WINDOW_WIDTH = 800
+WINDOW_WIDTH = 100
 SIZE = 50
 
 TIMER = 5 
@@ -9,29 +9,34 @@ TIMER = 5
 
 dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 snake = [(x , y)]
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
 time = pygame.time.Clock()
 
-generate_again =True
-while generate_again:
-    apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-    generate_again = False
-    for part in snake:
-        if part == apple:
-            generate_again = True
-            break
-        
+def generate_aplle(snake):
+    generate_again =True
+    while generate_again:
+        apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
+        generate_again = False
+        print(snake)
+        print(apple)
+        for part in snake:
+            if part == apple:
+                print('asdasd')
+                generate_again = True
+                break
+    return apple 
+apple = generate_aplle(snake)
+
 while True:
     screen.fill(pygame.Color('black'))
     [(pygame.draw.rect(screen, pygame.Color('green'), (i, j, SIZE, SIZE))) for i, j in snake]
     pygame.draw.rect(screen, pygame.Color('red'), (*apple, SIZE, SIZE))
-
     pygame.display.flip()
     time.tick(TIMER)
+    print(snake)
 
     x += dx * SIZE
     y += dy * SIZE
