@@ -1,6 +1,17 @@
 import pygame
 from random import randrange
 
+def get_new_apple_coordinates(snake):
+    generate_again = True
+    while generate_again:
+        apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
+        generate_again = False
+        for part in snake:
+            if part == apple:
+                generate_again = True
+                break
+    return apple 
+
 WINDOW_WIDTH = 800
 SIZE = 50
 
@@ -15,16 +26,6 @@ pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
 time = pygame.time.Clock()
 
-def get_new_apple_coordinates(snake):
-    generate_again = True
-    while generate_again:
-        apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-        generate_again = False
-        for part in snake:
-            if part == apple:
-                generate_again = True
-                break
-    return apple 
 apple = get_new_apple_coordinates(snake)
 
 while True:
@@ -63,3 +64,4 @@ while True:
         dx , dy = -1 , 0
     if contr [pygame.K_d] and odx != -1:
         dx , dy = 1 , 0
+        
