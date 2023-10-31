@@ -15,8 +15,8 @@ pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
 time = pygame.time.Clock()
 
-def generate_aplle(snake):
-    generate_again =True
+def get_new_apple_coordinates(snake):
+    generate_again = True
     while generate_again:
         apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
         generate_again = False
@@ -25,7 +25,7 @@ def generate_aplle(snake):
                 generate_again = True
                 break
     return apple 
-apple = generate_aplle(snake)
+apple = get_new_apple_coordinates(snake)
 
 while True:
     screen.fill(pygame.Color('black'))
@@ -41,7 +41,7 @@ while True:
     if dx != 0 or dy != 0:
         snake = [next_cell] + snake 
         if next_cell == apple:
-            apple = generate_aplle(snake)
+            apple = get_new_apple_coordinates(snake)
         else:
             snake.pop(-1)
 
