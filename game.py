@@ -1,6 +1,12 @@
 import pygame
 from random import randrange
 
+
+WINDOW_WIDTH = 800
+SIZE = 50
+
+TIMER = 5 
+
 def get_new_apple_coordinates(snake):
     generate_again = True
     while generate_again:
@@ -11,12 +17,6 @@ def get_new_apple_coordinates(snake):
                 generate_again = True
                 break
     return apple 
-
-WINDOW_WIDTH = 800
-SIZE = 50
-
-TIMER = 5 
-
 
 dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
