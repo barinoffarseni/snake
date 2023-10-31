@@ -1,10 +1,8 @@
 import pygame
 from random import randrange
 
-
 WINDOW_WIDTH = 800
 SIZE = 50
-
 TIMER = 5 
 
 def get_new_apple_coordinates(snake):
