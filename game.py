@@ -32,6 +32,7 @@ pygame.mixer.pre_init(44100, -16, 1, 512)
 time = pygame.time.Clock()
 pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
+font_end = pygame.font.SysFont('arial', 66, bold=True)
 
 apple = get_new_apple_coordinates(snake)
 
@@ -56,23 +57,18 @@ while True:
         snake = [next_cell] + snake 
         if next_cell == apple:
             apple = get_new_apple_coordinates(snake)
-            # generate_again =True
-            # while generate_again:
-            #     apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-            #     generate_again = False
-            #     for part in snake:
-            #         if part == apple:
-            #             generate_again = True
-            #             break
-            # apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
             pygame.mixer.Sound('audio/' + str(audio_nambers) + '.ogg').play()
         else:
             snake.pop(-1)
 
-    if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_WIDTH - SIZE:
-        exit()
-    if len(snake) != len(set(snake)):
-        exit()
+    if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_WIDTH - SIZE or len(snake) != len(set(snake)):
+        while True:
+            render_end = font_end.render('GAME OVER', 1, pygame.Color('purple'))
+            screen.blit(render_end, (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
@@ -87,4 +83,3 @@ while True:
         dx , dy = -1 , 0
     if contr [pygame.K_d] and odx != -1:
         dx , dy = 1 , 0
-        
