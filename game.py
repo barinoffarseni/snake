@@ -1,7 +1,7 @@
 import pygame
 from random import randrange
 
-WINDOW_WIDTH = 800
+WINDOW_WIDTH = 100
 SIZE = 50
 TIMER = 5 
 
@@ -35,7 +35,6 @@ pygame.mixer.music.play()
 font_end = pygame.font.SysFont('arial', 66, bold=True)
 
 apple = get_new_apple_coordinates(snake)
-
 while True:
     audio_nambers = randrange(0, 3)
     screen.fill(pygame.Color('black'))
@@ -44,15 +43,14 @@ while True:
     pygame.display.flip()
     time.tick(TIMER)
 
+    print((len(snake) + 1))
     if pygame.mixer.music.get_busy() == False:
         pygame.mixer.music.play()
-
+    print(int((WINDOW_WIDTH * WINDOW_WIDTH // SIZE)/SIZE))
     x += dx * SIZE
     y += dy * SIZE
     next_cell = (x, y)
-    
-    # после съедания яблока для нового яблока нужно сгенерировать корд которые не пересикаются с каждым элементом змеи 
-    # while True: 
+
     if dx != 0 or dy != 0:
         snake = [next_cell] + snake 
         if next_cell == apple:
@@ -63,12 +61,18 @@ while True:
 
     if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_WIDTH - SIZE or len(snake) != len(set(snake)):
         while True:
-            render_end = font_end.render('GAME OVER', 1, pygame.Color('purple'))
-            screen.blit(render_end, (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
+            screen.blit((font_end.render('GAME OVER', 1, pygame.Color('purple'))), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
             pygame.display.flip()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    exit()
+            pygame.mixer.music.set_volume(0.5)
+            exit()
+
+    if (len(snake) + 1) == 4:
+        print('sdasdasda')
+        screen.blit((font_end.render('YOU WIN', 1, pygame.Color('yellow'))), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
+        pygame.display.flip()
+        pygame.mixer.music.load('audio/2.ogg')
+        pygame.mixer.music.play()
+        exit()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
