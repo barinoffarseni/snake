@@ -37,6 +37,7 @@ pygame.mixer.music.play()
 font_end = pygame.font.SysFont('arial', 66, bold=True)
 
 apple = get_new_apple_coordinates(snake)
+
 while True:
     audio_nambers = randrange(0, 3)
     screen.fill(pygame.Color('black'))
@@ -47,6 +48,7 @@ while True:
 
     if pygame.mixer.music.get_busy() == False:
         pygame.mixer.music.play()
+        
     x += dx * SIZE
     y += dy * SIZE
     next_cell = (x, y)
@@ -60,7 +62,7 @@ while True:
                         pygame.display.flip()
                         pygame.mixer.music.load('audio/2.ogg')
                         pygame.mixer.music.play()
-                        close_game()
+                        pressing_the_cross()
 
                 apple = get_new_apple_coordinates(snake)
                 pygame.mixer.Sound('audio/' + str(audio_nambers) + '.ogg').play()
@@ -72,8 +74,8 @@ while True:
             screen.blit((font_end.render('GAME OVER', 1, pygame.Color('purple'))), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
             pygame.display.flip()
             pygame.mixer.music.set_volume(0.5)
-            close_game()
-    close_game()
+            pressing_the_cross()
+    pressing_the_cross()
 
     odx, ody = dx, dy
     contr = pygame.key.get_pressed()
