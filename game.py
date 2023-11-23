@@ -16,7 +16,7 @@ def get_new_apple_coordinates(snake):
                 break
     return apple 
 
-def close_game():
+def pressing_the_cross():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
@@ -28,9 +28,6 @@ snake = [(x , y)]
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
 
-audio_nambers = randrange(0, 2)
-
-pygame.init()
 pygame.mixer.init()
 pygame.mixer.pre_init(44100, -16, 1, 512)
 
@@ -64,6 +61,7 @@ while True:
                         pygame.mixer.music.load('audio/2.ogg')
                         pygame.mixer.music.play()
                         close_game()
+
                 apple = get_new_apple_coordinates(snake)
                 pygame.mixer.Sound('audio/' + str(audio_nambers) + '.ogg').play()
         else:
@@ -74,7 +72,6 @@ while True:
             screen.blit((font_end.render('GAME OVER', 1, pygame.Color('purple'))), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
             pygame.display.flip()
             pygame.mixer.music.set_volume(0.5)
-            # pygame.time.delay(50)
             close_game()
     close_game()
 
