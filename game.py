@@ -1,7 +1,7 @@
 import pygame
 from random import randrange
 
-WINDOW_WIDTH = 100
+WINDOW_WIDTH = 800
 SIZE = 50
 TIMER = 5 
 
