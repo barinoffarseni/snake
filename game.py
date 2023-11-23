@@ -16,6 +16,11 @@ def get_new_apple_coordinates(snake):
                 break
     return apple 
 
+def close_game():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            exit()
+
 dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 snake = [(x , y)]
@@ -43,10 +48,8 @@ while True:
     pygame.display.flip()
     time.tick(TIMER)
 
-    print((len(snake) + 1))
     if pygame.mixer.music.get_busy() == False:
         pygame.mixer.music.play()
-    print(int((WINDOW_WIDTH * WINDOW_WIDTH // SIZE)/SIZE))
     x += dx * SIZE
     y += dy * SIZE
     next_cell = (x, y)
@@ -54,8 +57,15 @@ while True:
     if dx != 0 or dy != 0:
         snake = [next_cell] + snake 
         if next_cell == apple:
-            apple = get_new_apple_coordinates(snake)
-            pygame.mixer.Sound('audio/' + str(audio_nambers) + '.ogg').play()
+                if len(snake) == int(WINDOW_WIDTH / SIZE * WINDOW_WIDTH / SIZE):
+                    while True:
+                        screen.blit((font_end.render('YOU WIN', 1, pygame.Color('yellow'))), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
+                        pygame.display.flip()
+                        pygame.mixer.music.load('audio/2.ogg')
+                        pygame.mixer.music.play()
+                        close_game()
+                apple = get_new_apple_coordinates(snake)
+                pygame.mixer.Sound('audio/' + str(audio_nambers) + '.ogg').play()
         else:
             snake.pop(-1)
 
@@ -64,18 +74,9 @@ while True:
             screen.blit((font_end.render('GAME OVER', 1, pygame.Color('purple'))), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
             pygame.display.flip()
             pygame.mixer.music.set_volume(0.5)
-            exit()
-
-    if (len(snake) + 1) == 4:
-        print('sdasdasda')
-        screen.blit((font_end.render('YOU WIN', 1, pygame.Color('yellow'))), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
-        pygame.display.flip()
-        pygame.mixer.music.load('audio/2.ogg')
-        pygame.mixer.music.play()
-        exit()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            exit()
+            # pygame.time.delay(50)
+            close_game()
+    close_game()
 
     odx, ody = dx, dy
     contr = pygame.key.get_pressed()
