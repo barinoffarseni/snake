@@ -31,6 +31,10 @@ win_title_color = pygame.Color('yellow')
 fail_title_color = pygame.Color('purple')
 win_title_text = 'YOU WIN'
 fail_title_text = 'GAME OVER'
+eyes_colors = pygame.Color('white')
+# eyes = pygame.draw.rect(snake, eyes_colors, 10, 10)
+img = pygame.image.load('22.jpg')
+img = pygame.transform.scale(img, (WINDOW_WIDTH, WINDOW_WIDTH)) 
 
 pygame.mixer.init()
 pygame.mixer.music.load('audio/birds.mp3')
@@ -61,7 +65,9 @@ while True:
 
     audio_numbers = randrange(0, 3)
     screen.fill(background_color)
+    screen.blit(img, (0, 0))
     [(pygame.draw.rect(screen, snake_color, (i, j, SIZE, SIZE))) for i, j in snake]
+    [(pygame.draw.rect(screen, eyes_colors,(i, j, 10, 10))) for i, j in snake]
     pygame.draw.rect(screen, apple_color, (*apple, SIZE, SIZE))
     pygame.display.flip()
 
