@@ -67,7 +67,8 @@ while True:
     screen.fill(background_color)
     screen.blit(img, (0, 0))
     [(pygame.draw.rect(screen, snake_color, (i, j, SIZE, SIZE))) for i, j in snake]
-    [(pygame.draw.rect(screen, eyes_colors,(i, j, 10, 10))) for i, j in snake]
+    [(pygame.draw.rect(screen, eyes_colors,(i + 10, j + 10, 10, 10))) for i, j in snake]
+    [(pygame.draw.rect(screen, eyes_colors,(i + 10, j + 30, 10, 10))) for i, j in snake]
     pygame.draw.rect(screen, apple_color, (*apple, SIZE, SIZE))
     pygame.display.flip()
 
