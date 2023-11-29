@@ -67,10 +67,11 @@ while True:
     screen.fill(background_color)
     screen.blit(img, (0, 0))
     [(pygame.draw.rect(screen, snake_color, (i, j, SIZE, SIZE))) for i, j in snake]
-    [(pygame.draw.rect(screen, eyes_colors,(i + 10, j + 10, 10, 10))) for i, j in snake]
-    [(pygame.draw.rect(screen, eyes_colors,(i + 10, j + 30, 10, 10))) for i, j in snake]
+    (pygame.draw.rect(screen, eyes_colors,(snake[0][0] + 10, snake[0][1] + 10, 10, 10)))
+    (pygame.draw.rect(screen, eyes_colors,(snake[0][0] + 10, snake[0][1] + 30, 10, 10)))
     pygame.draw.rect(screen, apple_color, (*apple, SIZE, SIZE))
     pygame.display.flip()
+    snake = [(25, 50), (75, 100)]
 
     if pygame.mixer.music.get_busy() == False:
         pygame.mixer.music.play()
