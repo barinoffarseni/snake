@@ -19,6 +19,8 @@ def get_new_apple_coordinates(snake):
 dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 snake = [(x , y)]
+left_eyes_x, left_eyes_y = 10, 30
+right_eyes_x, right_eyes_y = 30, 30
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
@@ -66,12 +68,11 @@ while True:
     audio_numbers = randrange(0, 3)
     screen.fill(background_color)
     screen.blit(img, (0, 0))
-    [(pygame.draw.rect(screen, snake_color, (i, j, SIZE, SIZE))) for i, j in snake]
-    (pygame.draw.rect(screen, eyes_colors,(snake[0][0] + 10, snake[0][1] + 10, 10, 10)))
-    (pygame.draw.rect(screen, eyes_colors,(snake[0][0] + 10, snake[0][1] + 30, 10, 10)))
+    [(pygame.draw.rect(screen, snake_color, (i, j, SIZE - 2, SIZE - 2))) for i, j in snake]
+    (pygame.draw.rect(screen, eyes_colors,(snake[0][0] + left_eyes_x, snake[0][1] + left_eyes_y, 10, 10)))
+    (pygame.draw.rect(screen, eyes_colors,(snake[0][0] + right_eyes_x, snake[0][1] + right_eyes_y, 10, 10)))
     pygame.draw.rect(screen, apple_color, (*apple, SIZE, SIZE))
     pygame.display.flip()
-    snake = [(25, 50), (75, 100)]
 
     if pygame.mixer.music.get_busy() == False:
         pygame.mixer.music.play()
@@ -100,9 +101,17 @@ while True:
     contr = pygame.key.get_pressed()
     if contr [pygame.K_w] and ody != 1:
         dx , dy = 0 , -1
+        left_eyes_x, left_eyes_y = 10, 10
+        right_eyes_x, right_eyes_y = 30, 10
     if contr [pygame.K_s] and ody != -1:
         dx , dy = 0 , 1
+        left_eyes_x, left_eyes_y = 10, 30
+        right_eyes_x, right_eyes_y = 30, 30
     if contr [pygame.K_a] and odx != 1:
         dx , dy = -1 , 0
+        left_eyes_x, left_eyes_y = 10, 10
+        right_eyes_x, right_eyes_y = 10, 30
     if contr [pygame.K_d] and odx != -1:
         dx , dy = 1 , 0
+        left_eyes_x, left_eyes_y = 30, 10
+        right_eyes_x, right_eyes_y = 30, 30
