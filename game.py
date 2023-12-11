@@ -31,10 +31,10 @@ snake_color = pygame.Color('green')
 apple_color = pygame.Color('red')
 win_title_color = pygame.Color('yellow')
 fail_title_color = pygame.Color('purple')
+apple_branch_color = pygame.Color('brown')
 win_title_text = 'YOU WIN'
 fail_title_text = 'GAME OVER'
 eyes_colors = pygame.Color('white')
-# eyes = pygame.draw.rect(snake, eyes_colors, 10, 10)
 img = pygame.image.load('22.jpg')
 img = pygame.transform.scale(img, (WINDOW_WIDTH, WINDOW_WIDTH)) 
 
@@ -69,9 +69,16 @@ while True:
     screen.fill(background_color)
     screen.blit(img, (0, 0))
     [(pygame.draw.rect(screen, snake_color, (i, j, SIZE - 2, SIZE - 2))) for i, j in snake]
-    (pygame.draw.rect(screen, eyes_colors,(snake[0][0] + left_eyes_x, snake[0][1] + left_eyes_y, 10, 10)))
-    (pygame.draw.rect(screen, eyes_colors,(snake[0][0] + right_eyes_x, snake[0][1] + right_eyes_y, 10, 10)))
-    pygame.draw.rect(screen, apple_color, (*apple, SIZE, SIZE))
+    # pygame.draw.arc(screen, win_title_color, (snake[0][0], snake[0][1], SIZE, SIZE), 400 ,60)
+    pygame.draw.rect(screen, eyes_colors,(snake[0][0] + left_eyes_x, snake[0][1] + left_eyes_y, 10, 10))
+    pygame.draw.rect(screen, eyes_colors,(snake[0][0] + right_eyes_x, snake[0][1] + right_eyes_y, 10, 10))
+    pygame.draw.rect(screen, background_color,(snake[0][0] + left_eyes_x + 5, snake[0][1] + left_eyes_y + 5, 5, 5))
+    pygame.draw.rect(screen, background_color,(snake[0][0] + right_eyes_x + 5, snake[0][1] + right_eyes_y + 5, 5, 5))
+    pygame.draw.circle(screen, apple_color, (apple[0] + SIZE / 2, apple[1] + SIZE / 2), int(SIZE / 2),int(SIZE / 2))
+    pygame.draw.rect(screen, eyes_colors, (apple[0] + SIZE - 10, apple[1] + SIZE - 40, SIZE - 45, SIZE - 40))
+    pygame.draw.rect(screen, eyes_colors, (apple[0] + SIZE - 15, apple[1] + SIZE - 40, SIZE - 45, SIZE - 45))
+    pygame.draw.rect(screen, apple_branch_color, (apple[0] + SIZE / 2, apple[1], SIZE - 45, SIZE - 40))
+    pygame.draw.rect(screen, apple_branch_color, (apple[0] + SIZE - 30, apple[1], SIZE - 45, SIZE - 40))
     pygame.display.flip()
 
     if pygame.mixer.music.get_busy() == False:
@@ -80,6 +87,11 @@ while True:
     x += dx * SIZE
     y += dy * SIZE
     next_cell = (x, y)
+
+    # for b in range(int(WINDOW_WIDTH / 4), int(WINDOW_WIDTH / 2) + SIZE, SIZE):
+    #     if apple[0][0] == b and apple[0][1] == b:
+    #         print('aacascacsc')
+
 
     if dx != 0 or dy != 0:
         snake = [next_cell] + snake 
@@ -96,7 +108,7 @@ while True:
     if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_WIDTH - SIZE or len(snake) != len(set(snake)):
         game_status = 'fail'
         continue
-
+    # print(int(apple[0][0]))
     odx, ody = dx, dy
     contr = pygame.key.get_pressed()
     if contr [pygame.K_w] and ody != 1:
