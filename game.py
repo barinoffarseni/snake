@@ -71,7 +71,17 @@ while True:
 
     audio_numbers = randrange(0, 3)
     screen.fill(background_color)
-    screen.blit(img, (0, 0))
+
+    for i in range(0, WINDOW_WIDTH, SIZE):
+        for j in range(0, WINDOW_WIDTH, SIZE):
+            if i == 0 and j % 100 == 0:
+                pygame.draw.rect(screen, light_reflection, (i, j, SIZE, SIZE))
+            if j == 50 and i == 50:
+                pygame.draw.rect(screen, light_reflection, (i, j, SIZE, SIZE))
+            if j % 100 == 0 and i % 100 == 0:
+                pygame.draw.rect(screen, light_reflection, (i, j, SIZE, SIZE))
+            if j % 100 == 50 and i % 100 == 50:
+                pygame.draw.rect(screen, light_reflection, (i, j, SIZE, SIZE))
 
     for cell in snake:
         if cell != snake[0] and cell != snake[len(snake)-1]:
