@@ -39,8 +39,6 @@ apple_branch_color = pygame.Color('brown')
 light_reflection = pygame.Color('white')
 win_title_text = 'YOU WIN'
 fail_title_text = 'GAME OVER'
-img = pygame.image.load('22.jpg')
-img = pygame.transform.scale(img, (WINDOW_WIDTH, WINDOW_WIDTH)) 
 
 pygame.mixer.init()
 pygame.mixer.music.load('audio/birds.mp3')
