@@ -117,11 +117,14 @@ while True:
                 pygame.draw.rect(screen, snake_color, (snake[0][0] + head['x_y'][0], snake[0][1] + head['x_y'][1], head['width_head_x_y'][0], head['width_head_x_y'][1]))
     eyes = get_eyes_offset(dy, dx)
     draw_eyes(eyes, screen, eyes_colors, background_color, snake, eyes_width, pupil_width)
-    pygame.draw.circle(screen, apple_color, (apple[0] + apple_styles['x, y'][0], apple[1] + apple_styles['x, y'][1]), apple_styles['width'])
-    pygame.draw.rect(screen, light_reflection_color, (apple[0] + light_reflection['light_reflection_1']['x, y'][0], apple[1] + light_reflection['light_reflection_1']['x, y'][1], light_reflection['light_reflection_1']['width'][0], light_reflection['light_reflection_1']['width'][1]))
-    pygame.draw.rect(screen, light_reflection_color, (apple[0] + light_reflection['light_reflection_2']['x, y'][0], apple[1] + light_reflection['light_reflection_2']['x, y'][1], light_reflection['light_reflection_2']['width'][0], light_reflection['light_reflection_2']['width'][1]))
-    pygame.draw.rect(screen, apple_branch_color, (apple[0] + branch['branch_start']['x, y'][0], apple[1] + branch['branch_start']['x, y'][1], branch['branch_start']['width'][0], branch['branch_start']['width'][1]))
-    pygame.draw.rect(screen, apple_branch_color, (apple[0] + branch['branch_end']['x, y'][0], apple[1] + branch['branch_end']['x, y'][1], branch['branch_end']['width'][0], branch['branch_end']['width'][1]))
+    def draw_apple(screen, apple_branch_color, light_reflection, branch, apple, light_reflection_color, apple_color):
+        pygame.draw.circle(screen, apple_color, (apple[0] + apple_styles['x, y'][0], apple[1] + apple_styles['x, y'][1]), apple_styles['width'])
+        pygame.draw.rect(screen, light_reflection_color, (apple[0] + light_reflection['light_reflection_1']['x, y'][0], apple[1] + light_reflection['light_reflection_1']['x, y'][1], light_reflection['light_reflection_1']['width'][0], light_reflection['light_reflection_1']['width'][1]))
+        pygame.draw.rect(screen, light_reflection_color, (apple[0] + light_reflection['light_reflection_2']['x, y'][0], apple[1] + light_reflection['light_reflection_2']['x, y'][1], light_reflection['light_reflection_2']['width'][0], light_reflection['light_reflection_2']['width'][1]))
+        pygame.draw.rect(screen, apple_branch_color, (apple[0] + branch['branch_start']['x, y'][0], apple[1] + branch['branch_start']['x, y'][1], branch['branch_start']['width'][0], branch['branch_start']['width'][1]))
+        pygame.draw.rect(screen, apple_branch_color, (apple[0] + branch['branch_end']['x, y'][0], apple[1] + branch['branch_end']['x, y'][1], branch['branch_end']['width'][0], branch['branch_end']['width'][1]))
+    draw_apple(screen, apple_branch_color, light_reflection, branch, apple, light_reflection_color, apple_color)
+
     pygame.display.flip()
 
     if pygame.mixer.music.get_busy() == False:
