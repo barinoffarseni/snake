@@ -18,10 +18,32 @@ def get_new_apple_coordinates(snake):
                 break
     return apple 
 
-apple_branch_start_x, apple_branch_start_y = 20, 5
-apple_branch_end_x, apple_branch_end_y = 15, 0
-apple_branch_end_x = 20
-branch_width = 10
+apple_styles = {
+    'width': (22),
+    'x, y': (25, 25)
+}
+
+light_reflection = {
+    'light_reflection_1': {
+        'x, y': (40, 10),
+        'width': (5, 10),
+    },
+    'light_reflection_2': {
+        'x, y': (35, 10),
+        'width': (5, 5),
+    },
+}
+
+branch = {
+    'branch_start': {
+        'x, y': (20, 5),
+        'width': (10, 10),
+    },
+    'branch_end': {
+        'x, y': [15, 0],
+        'width': (10, 10),
+    },
+}
 
 dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
@@ -36,7 +58,7 @@ apple_color = pygame.Color('red')
 win_title_color = pygame.Color('yellow')
 fail_title_color = pygame.Color('purple')
 apple_branch_color = pygame.Color('brown')
-light_reflection = pygame.Color('white')
+light_reflection_color = pygame.Color('white')
 win_title_text = 'YOU WIN'
 fail_title_text = 'GAME OVER'
 
@@ -69,17 +91,19 @@ while True:
 
     audio_numbers = randrange(0, 3)
     screen.fill(background_color)
+    def chess_field():
+        for i in range(0, WINDOW_WIDTH, SIZE):
+            for j in range(0, WINDOW_WIDTH, SIZE):
+                if i == 0 and j % 100 == 0:
+                    pygame.draw.rect(screen, light_reflection_color, (i, j, SIZE, SIZE))
+                if j == 50 and i == 50:
+                    pygame.draw.rect(screen, light_reflection_color, (i, j, SIZE, SIZE))
+                if j % 100 == 0 and i % 100 == 0:
+                    pygame.draw.rect(screen, light_reflection_color, (i, j, SIZE, SIZE))
+                if j % 100 == 50 and i % 100 == 50:
+                    pygame.draw.rect(screen, light_reflection_color, (i, j, SIZE, SIZE))
 
-    for i in range(0, WINDOW_WIDTH, SIZE):
-        for j in range(0, WINDOW_WIDTH, SIZE):
-            if i == 0 and j % 100 == 0:
-                pygame.draw.rect(screen, light_reflection, (i, j, SIZE, SIZE))
-            if j == 50 and i == 50:
-                pygame.draw.rect(screen, light_reflection, (i, j, SIZE, SIZE))
-            if j % 100 == 0 and i % 100 == 0:
-                pygame.draw.rect(screen, light_reflection, (i, j, SIZE, SIZE))
-            if j % 100 == 50 and i % 100 == 50:
-                pygame.draw.rect(screen, light_reflection, (i, j, SIZE, SIZE))
+    chess_field()
 
     for cell in snake:
         if cell != snake[0] and cell != snake[len(snake)-1]:
@@ -93,11 +117,11 @@ while True:
                 pygame.draw.rect(screen, snake_color, (snake[0][0] + head['x_y'][0], snake[0][1] + head['x_y'][1], head['width_head_x_y'][0], head['width_head_x_y'][1]))
     eyes = get_eyes_offset(dy, dx)
     draw_eyes(eyes, screen, eyes_colors, background_color, snake, eyes_width, pupil_width)
-    pygame.draw.circle(screen, apple_color, (apple[0] + SIZE / 2, apple[1] + SIZE / 2), int((SIZE / 2) - 2),int(SIZE / 2))
-    pygame.draw.rect(screen, light_reflection, (apple[0] + SIZE - 10, apple[1] + SIZE - 40, SIZE - 45, SIZE - 40))
-    pygame.draw.rect(screen, light_reflection, (apple[0] + SIZE - 15, apple[1] + SIZE - 40, SIZE - 45, SIZE - 45))
-    pygame.draw.rect(screen, apple_branch_color, (apple[0] + apple_branch_end_x, apple[1] + apple_branch_end_y, branch_width, branch_width))
-    pygame.draw.rect(screen, apple_branch_color, (apple[0] + apple_branch_start_x, apple[1] + apple_branch_start_y, branch_width, branch_width))
+    pygame.draw.circle(screen, apple_color, (apple[0] + apple_styles['x, y'][0], apple[1] + apple_styles['x, y'][1]), apple_styles['width'])
+    pygame.draw.rect(screen, light_reflection_color, (apple[0] + light_reflection['light_reflection_1']['x, y'][0], apple[1] + light_reflection['light_reflection_1']['x, y'][1], light_reflection['light_reflection_1']['width'][0], light_reflection['light_reflection_1']['width'][1]))
+    pygame.draw.rect(screen, light_reflection_color, (apple[0] + light_reflection['light_reflection_2']['x, y'][0], apple[1] + light_reflection['light_reflection_2']['x, y'][1], light_reflection['light_reflection_2']['width'][0], light_reflection['light_reflection_2']['width'][1]))
+    pygame.draw.rect(screen, apple_branch_color, (apple[0] + branch['branch_start']['x, y'][0], apple[1] + branch['branch_start']['x, y'][1], branch['branch_start']['width'][0], branch['branch_start']['width'][1]))
+    pygame.draw.rect(screen, apple_branch_color, (apple[0] + branch['branch_end']['x, y'][0], apple[1] + branch['branch_end']['x, y'][1], branch['branch_end']['width'][0], branch['branch_end']['width'][1]))
     pygame.display.flip()
 
     if pygame.mixer.music.get_busy() == False:
@@ -114,7 +138,7 @@ while True:
                 game_status = 'win'
                 continue
             
-            apple_branch_end_x = randrange(15, 30, 5)
+            branch['branch_end']['x, y'][0] = randrange(15, 30, 5)
             apple = get_new_apple_coordinates(snake)
             pygame.mixer.Sound('audio/' + str(audio_numbers) + '.ogg').play()
         else:
