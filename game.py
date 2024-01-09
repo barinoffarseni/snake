@@ -1,22 +1,11 @@
 import pygame
 from random import randrange
 from snake_styles import draw_eyes, get_eyes_offset, get_head_offset, get_tail_styles, pupil_width, eyes_width
-from apple_file import draw_apple, apple_styles, light_reflection, branch
+from apple_file import draw_apple, apple_styles, light_reflection, branch, get_new_apple_coordinates
 
 WINDOW_WIDTH = 800
 SIZE = 50
 FPS = 5
-
-def get_new_apple_coordinates(snake):
-    generate_again = True
-    while generate_again:
-        apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-        generate_again = False
-        for part in snake:
-            if part == apple:
-                generate_again = True
-                break
-    return apple
 
 dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
@@ -42,45 +31,50 @@ pygame.mixer.init()
 pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
 
-apple = get_new_apple_coordinates(snake)
+apple = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
 game_status = 'play'
+
+def win_state():
+    screen.blit((font.render(win_title_text, 1, win_title_color)), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
+    pygame.display.flip()
+    pygame.mixer.music.load('audio/2.ogg')
+    pygame.mixer.music.play()
+
+def lose_state():
+    screen.blit((font.render(fail_title_text, 1, fail_title_color)), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
+    pygame.display.flip()
+    pygame.mixer.music.set_volume(0.5)
+
+def draw_background():
+    for i in range(0, WINDOW_WIDTH, SIZE):
+        for j in range(0, WINDOW_WIDTH, SIZE):
+            if i == 0 and j % 100 == 0:
+                pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
+            if j == 50 and i == 50:
+                pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
+            if j % 100 == 0 and i % 100 == 0:
+                pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
+            if j % 100 == 50 and i % 100 == 50:
+                pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
 
 while True:
     clock.tick(FPS)
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
 
     if game_status == 'win':
-        screen.blit((font.render(win_title_text, 1, win_title_color)), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
-        pygame.display.flip()
-        pygame.mixer.music.load('audio/2.ogg')
-        pygame.mixer.music.play()
+        win_state()
         continue
 
     if game_status == 'fail':
-        screen.blit((font.render(fail_title_text, 1, fail_title_color)), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
-        pygame.display.flip()
-        pygame.mixer.music.set_volume(0.5)
+        lose_state()
         continue
 
-    audio_numbers = randrange(0, 3)
     screen.fill(background_color)
 
-    def chess_field():
-        for i in range(0, WINDOW_WIDTH, SIZE):
-            for j in range(0, WINDOW_WIDTH, SIZE):
-                if i == 0 and j % 100 == 0:
-                    pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
-                if j == 50 and i == 50:
-                    pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
-                if j % 100 == 0 and i % 100 == 0:
-                    pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
-                if j % 100 == 50 and i % 100 == 50:
-                    pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
-
-    chess_field()
+    draw_background()
 
     for cell in snake:
             if cell != snake[0] and cell != snake[len(snake)-1]:
@@ -117,8 +111,8 @@ while True:
                 continue
             
             branch['branch_end']['x, y'][0] = randrange(15, 30, 5)
-            apple = get_new_apple_coordinates(snake)
-            pygame.mixer.Sound('audio/' + str(audio_numbers) + '.ogg').play()
+            apple = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
+            pygame.mixer.Sound('audio/' + str(randrange(0, 3)) + '.ogg').play()
         else:
             snake.pop(-1)
 
