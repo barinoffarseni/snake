@@ -1,5 +1,5 @@
 import pygame
-
+        
 def get_tail_styles(snake):
     tail = snake[len(snake)-1]
     body = snake[len(snake)-2]
@@ -148,5 +148,3 @@ def get_eyes_offset(dx, dy):
 eyes_width = 10
 pupil_width = 5
 
-snake_color = pygame.Color('green')
-eyes_colors = pygame.Color('white')
