@@ -1,7 +1,49 @@
 import pygame
 from random import randrange
 from snake_styles import draw_eyes, get_eyes_offset, get_head_offset, get_tail_styles, pupil_width, eyes_width
-from apple_file import draw_apple, apple_styles, light_reflection, branch, get_new_apple_coordinates
+from apple_file import draw_apple, get_new_apple_coordinates
+
+class Apple:
+  def __init__(self, x, y):
+    self.x = x
+    self.y = y
+    self.color = pygame.Color('red')
+    self.branch_color = pygame.Color('brown')
+    self.styles = {
+        'width': (22),
+        'x, y': (25, 25)
+    }
+    self.light_reflection_color = pygame.Color('white')
+    self.light_reflection = {
+        'light_reflection_1': {
+            'x, y': (40, 10),
+            'width': (5, 10),
+        },
+        'light_reflection_2': {
+            'x, y': (35, 10),
+            'width': (5, 5),
+        }
+    }
+
+    self.branch = {
+        'branch_start': {
+            'x, y': (20, 5),
+            'width': (10, 10),
+        },
+        'branch_end': {
+            'x, y': [15, 0],
+            'width': (10, 10),
+        },
+    }
+
+  def get_coordinates(self):
+    return (self.x, self.y)
+  
+  def draw(self):
+    draw_apple(screen, self.branch_color, self.light_reflection, self.branch, self.get_coordinates(), self.light_reflection_color, self.color, self.styles)
+
+  def randomize_branch(self):
+    self.branch['branch_end']['x, y'][0] = randrange(15, 30, 5)
 
 WINDOW_WIDTH = 800
 SIZE = 50
@@ -21,9 +63,9 @@ win_title_color = pygame.Color('yellow')
 fail_title_color = pygame.Color('purple')
 snake_color = pygame.Color('green')
 eyes_colors = pygame.Color('white')
-apple_color = pygame.Color('red')
-apple_branch_color = pygame.Color('brown')
-light_reflection_color = pygame.Color('white')
+# apple_color = pygame.Color('red')
+# apple_branch_color = pygame.Color('brown')
+# light_reflection_color = pygame.Color('white')
 win_title_text = 'YOU WIN'
 fail_title_text = 'GAME OVER'
 
@@ -31,7 +73,10 @@ pygame.mixer.init()
 pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
 
-apple = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
+apple_x, apple_y = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
+apple = Apple(apple_x, apple_y)
+
+# apple = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
 game_status = 'play'
 
 def win_state():
@@ -88,8 +133,8 @@ def control(dx, dy):
         return -1, 0
     if contr [pygame.K_d] and odx != -1:
         return 1, 0
-    
-    return 0, 0
+
+    return dx, dy
 
 while True:
     clock.tick(FPS)
@@ -113,7 +158,7 @@ while True:
 
     draw_eyes(eyes, screen, eyes_colors, background_color, snake, eyes_width, pupil_width)
 
-    draw_apple(screen, apple_branch_color, light_reflection, branch, apple, light_reflection_color, apple_color, apple_styles)
+    apple.draw()
 
     pygame.display.flip()
 
@@ -121,17 +166,17 @@ while True:
 
     x += dx * SIZE
     y += dy * SIZE
-    next_cell = (x, y)
 
+    next_cell = (x, y)
     if dx != 0 or dy != 0:
         snake = [next_cell] + snake 
-        if next_cell == apple:
+        if next_cell == apple.get_coordinates():
             if len(snake) == int(WINDOW_WIDTH / SIZE * WINDOW_WIDTH / SIZE):
                 game_status = 'win'
                 continue
 
-            branch['branch_end']['x, y'][0] = randrange(15, 30, 5)
-            apple = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
+            apple.randomize_branch()
+            apple.x, apple.y = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
 
             play_eat_apple_sound()
         else:
@@ -142,3 +187,5 @@ while True:
         continue
 
     dx , dy = control(dx, dy)
+
+    
