@@ -46,6 +46,7 @@ def lose_state():
     pygame.mixer.music.set_volume(0.5)
 
 def draw_background():
+    screen.fill(background_color)
     for i in range(0, WINDOW_WIDTH, SIZE):
         for j in range(0, WINDOW_WIDTH, SIZE):
             if i == 0 and j % 100 == 0:
@@ -56,6 +57,18 @@ def draw_background():
                 pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
             if j % 100 == 50 and i % 100 == 50:
                 pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
+
+def draw_snake():
+    for cell in snake:
+        if cell != snake[0] and cell != snake[len(snake)-1]:
+            pygame.draw.rect(screen, snake_color, (cell[0], cell[1], SIZE, SIZE))
+        else:
+            pygame.draw.circle(screen, snake_color, (cell[0] + SIZE / 2, cell[1] + SIZE / 2), int(SIZE / 2), int(SIZE / 2))
+            if len(snake) > 1:
+                head = get_head_offset(dx, dy, snake)
+                tail_styles = get_tail_styles(snake)
+                pygame.draw.rect(screen, snake_color, (snake[len(snake)-1][0] + tail_styles['x_y'][0], snake[len(snake)-1][1] + tail_styles['x_y'][1], tail_styles['width_tail_x_y'][0], tail_styles['width_tail_x_y'][1]))
+                pygame.draw.rect(screen, snake_color, (snake[0][0] + head['x_y'][0], snake[0][1] + head['x_y'][1], head['width_head_x_y'][0], head['width_head_x_y'][1]))
 
 while True:
     clock.tick(FPS)
@@ -72,21 +85,9 @@ while True:
         lose_state()
         continue
 
-    screen.fill(background_color)
-
     draw_background()
 
-    for cell in snake:
-            if cell != snake[0] and cell != snake[len(snake)-1]:
-                pygame.draw.rect(screen, snake_color, (cell[0], cell[1], SIZE, SIZE))
-            else:
-                pygame.draw.circle(screen, snake_color, (cell[0] + SIZE / 2, cell[1] + SIZE / 2), int(SIZE / 2), int(SIZE / 2))
-                if len(snake) > 1:
-                    head = get_head_offset(dx, dy, snake)
-                    tail_styles = get_tail_styles(snake)
-                    pygame.draw.rect(screen, snake_color, (snake[len(snake)-1][0] + tail_styles['x_y'][0], snake[len(snake)-1][1] + tail_styles['x_y'][1], tail_styles['width_tail_x_y'][0], tail_styles['width_tail_x_y'][1]))
-                    pygame.draw.rect(screen, snake_color, (snake[0][0] + head['x_y'][0], snake[0][1] + head['x_y'][1], head['width_head_x_y'][0], head['width_head_x_y'][1]))
-
+    draw_snake()
 
     eyes = get_eyes_offset(dy, dx)
 
