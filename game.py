@@ -69,6 +69,27 @@ def draw_snake():
                 tail_styles = get_tail_styles(snake)
                 pygame.draw.rect(screen, snake_color, (snake[len(snake)-1][0] + tail_styles['x_y'][0], snake[len(snake)-1][1] + tail_styles['x_y'][1], tail_styles['width_tail_x_y'][0], tail_styles['width_tail_x_y'][1]))
                 pygame.draw.rect(screen, snake_color, (snake[0][0] + head['x_y'][0], snake[0][1] + head['x_y'][1], head['width_head_x_y'][0], head['width_head_x_y'][1]))
+                
+def restart_music():
+    if pygame.mixer.music.get_busy() == False:
+        pygame.mixer.music.play()
+
+def play_eat_apple_sound():
+    pygame.mixer.Sound('audio/' + str(randrange(0, 3)) + '.ogg').play()
+
+def control(dx, dy):
+    odx, ody = dx, dy
+    contr = pygame.key.get_pressed()
+    if contr [pygame.K_w] and ody != 1:
+        return 0, -1
+    if contr [pygame.K_s] and ody != -1:
+        return 0, 1
+    if contr [pygame.K_a] and odx != 1:
+        return -1, 0
+    if contr [pygame.K_d] and odx != -1:
+        return 1, 0
+    
+    return 0, 0
 
 while True:
     clock.tick(FPS)
@@ -86,7 +107,6 @@ while True:
         continue
 
     draw_background()
-
     draw_snake()
 
     eyes = get_eyes_offset(dy, dx)
@@ -97,8 +117,7 @@ while True:
 
     pygame.display.flip()
 
-    if pygame.mixer.music.get_busy() == False:
-        pygame.mixer.music.play()
+    restart_music()
 
     x += dx * SIZE
     y += dy * SIZE
@@ -110,10 +129,11 @@ while True:
             if len(snake) == int(WINDOW_WIDTH / SIZE * WINDOW_WIDTH / SIZE):
                 game_status = 'win'
                 continue
-            
+
             branch['branch_end']['x, y'][0] = randrange(15, 30, 5)
             apple = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
-            pygame.mixer.Sound('audio/' + str(randrange(0, 3)) + '.ogg').play()
+
+            play_eat_apple_sound()
         else:
             snake.pop(-1)
 
@@ -121,13 +141,4 @@ while True:
         game_status = 'fail'
         continue
 
-    odx, ody = dx, dy
-    contr = pygame.key.get_pressed()
-    if contr [pygame.K_w] and ody != 1:
-        dx , dy = 0 , -1
-    if contr [pygame.K_s] and ody != -1:
-        dx , dy = 0 , 1
-    if contr [pygame.K_a] and odx != 1:
-        dx , dy = -1 , 0
-    if contr [pygame.K_d] and odx != -1:
-        dx , dy = 1 , 0
+    dx , dy = control(dx, dy)

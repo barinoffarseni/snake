@@ -28,17 +28,6 @@ branch = {
     },
 }
 
-# def get_new_apple_coordinates(snake):
-#     generate_again = True
-#     while generate_again:
-#         apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-#         generate_again = False
-#         for part in snake:
-#             if part == apple:
-#                 generate_again = True
-#                 break
-#     return apple 
-
 def draw_apple(screen, apple_branch_color, light_reflection, branch, apple, light_reflection_color, apple_color, apple_styles):
     pygame.draw.circle(screen, apple_color, (apple[0] + apple_styles['x, y'][0], apple[1] + apple_styles['x, y'][1]), apple_styles['width'])
     pygame.draw.rect(screen, light_reflection_color, (apple[0] + light_reflection['light_reflection_1']['x, y'][0], apple[1] + light_reflection['light_reflection_1']['x, y'][1], light_reflection['light_reflection_1']['width'][0], light_reflection['light_reflection_1']['width'][1]))
