@@ -1,49 +1,8 @@
 import pygame
+import apple
 from random import randrange
 from snake_styles import draw_eyes, get_eyes_offset, get_head_offset, get_tail_styles, pupil_width, eyes_width
-from apple_file import draw_apple, get_new_apple_coordinates
-
-class Apple:
-  def __init__(self, x, y):
-    self.x = x
-    self.y = y
-    self.color = pygame.Color('red')
-    self.branch_color = pygame.Color('brown')
-    self.styles = {
-        'width': (22),
-        'x, y': (25, 25)
-    }
-    self.light_reflection_color = pygame.Color('white')
-    self.light_reflection = {
-        'light_reflection_1': {
-            'x, y': (40, 10),
-            'width': (5, 10),
-        },
-        'light_reflection_2': {
-            'x, y': (35, 10),
-            'width': (5, 5),
-        }
-    }
-
-    self.branch = {
-        'branch_start': {
-            'x, y': (20, 5),
-            'width': (10, 10),
-        },
-        'branch_end': {
-            'x, y': [15, 0],
-            'width': (10, 10),
-        },
-    }
-
-  def get_coordinates(self):
-    return (self.x, self.y)
-  
-  def draw(self):
-    draw_apple(screen, self.branch_color, self.light_reflection, self.branch, self.get_coordinates(), self.light_reflection_color, self.color, self.styles)
-
-  def randomize_branch(self):
-    self.branch['branch_end']['x, y'][0] = randrange(15, 30, 5)
+from apple_file import get_new_apple_coordinates
 
 WINDOW_WIDTH = 800
 SIZE = 50
@@ -74,7 +33,7 @@ pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
 
 apple_x, apple_y = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
-apple = Apple(apple_x, apple_y)
+apple = apple.Apple(apple_x, apple_y)
 
 # apple = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
 game_status = 'play'
@@ -152,13 +111,16 @@ while True:
         continue
 
     draw_background()
+    # snake.draw()
     draw_snake()
 
+    # snake.draw()
     eyes = get_eyes_offset(dy, dx)
 
+    # snake.draw()
     draw_eyes(eyes, screen, eyes_colors, background_color, snake, eyes_width, pupil_width)
 
-    apple.draw()
+    apple.draw(screen)
 
     pygame.display.flip()
 
@@ -187,5 +149,3 @@ while True:
         continue
 
     dx , dy = control(dx, dy)
-
-    
