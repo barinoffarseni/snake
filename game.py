@@ -11,6 +11,36 @@ FPS = 5
 dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 snake = [(x , y)]
+class Snake:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.segments = [(self.x , self.y)]
+
+        self.eyes_colors = pygame.Color('white')
+        self.snake_color = pygame.Color('green')
+
+    def draw(self):
+        self.draw_snake(self, self.snake_color)
+    
+    def draw_snake(self, snake_color):
+        for cell in snake:
+            if cell != snake[0] and cell != snake[len(snake)-1]:
+                pygame.draw.rect(screen, snake_color, (cell[0], cell[1], SIZE, SIZE))
+            else:
+                pygame.draw.circle(screen, snake_color, (cell[0] + SIZE / 2, cell[1] + SIZE / 2), int(SIZE / 2), int(SIZE / 2))
+                if len(snake) > 1:
+                    head = get_head_offset(dx, dy, snake)
+                    tail_styles = get_tail_styles(snake)
+                    pygame.draw.rect(screen, snake_color, (snake[len(snake)-1][0] + tail_styles['x_y'][0], snake[len(snake)-1][1] + tail_styles['x_y'][1], tail_styles['width_tail_x_y'][0], tail_styles['width_tail_x_y'][1]))
+                    pygame.draw.rect(screen, snake_color, (snake[0][0] + head['x_y'][0], snake[0][1] + head['x_y'][1], head['width_head_x_y'][0], head['width_head_x_y'][1]))
+
+WINDOW_WIDTH = 800
+SIZE = 50
+FPS = 5
+
+dx , dy = 0 , 0
+x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
@@ -32,7 +62,22 @@ pygame.mixer.init()
 pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
 
-apple_x, apple_y = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
+game_status = 'play'
+
+def get_new_apple_coordinates(snake, width, size):
+    generate_again = True
+    while generate_again:
+        apple = randrange(0 ,width, size), randrange(0 ,width, size)
+        generate_again = False
+        for part in snake:
+            if part == apple:
+                generate_again = True
+                break
+    return apple
+
+snake = Snake(x, y)
+
+apple_x, apple_y = get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
 apple = apple.Apple(apple_x, apple_y)
 
 # apple = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
@@ -62,7 +107,7 @@ def draw_background():
             if j % 100 == 50 and i % 100 == 50:
                 pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
 
-def draw_snake():
+def draw_snake(self, snake_color):
     for cell in snake:
         if cell != snake[0] and cell != snake[len(snake)-1]:
             pygame.draw.rect(screen, snake_color, (cell[0], cell[1], SIZE, SIZE))
