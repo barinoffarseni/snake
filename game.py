@@ -1,45 +1,12 @@
 import pygame
 import apple
+import snake 
 from random import randrange
-from snake_styles import draw_eyes, get_eyes_offset, get_head_offset, get_tail_styles, pupil_width, eyes_width
-from apple_file import get_new_apple_coordinates
 
 WINDOW_WIDTH = 800
 SIZE = 50
 FPS = 5
 
-dx , dy = 0 , 0
-x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-snake = [(x , y)]
-class Snake:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.segments = [(self.x , self.y)]
-
-        self.eyes_colors = pygame.Color('white')
-        self.snake_color = pygame.Color('green')
-
-    def draw(self):
-        self.draw_snake(self, self.snake_color)
-    
-    def draw_snake(self, snake_color):
-        for cell in snake:
-            if cell != snake[0] and cell != snake[len(snake)-1]:
-                pygame.draw.rect(screen, snake_color, (cell[0], cell[1], SIZE, SIZE))
-            else:
-                pygame.draw.circle(screen, snake_color, (cell[0] + SIZE / 2, cell[1] + SIZE / 2), int(SIZE / 2), int(SIZE / 2))
-                if len(snake) > 1:
-                    head = get_head_offset(dx, dy, snake)
-                    tail_styles = get_tail_styles(snake)
-                    pygame.draw.rect(screen, snake_color, (snake[len(snake)-1][0] + tail_styles['x_y'][0], snake[len(snake)-1][1] + tail_styles['x_y'][1], tail_styles['width_tail_x_y'][0], tail_styles['width_tail_x_y'][1]))
-                    pygame.draw.rect(screen, snake_color, (snake[0][0] + head['x_y'][0], snake[0][1] + head['x_y'][1], head['width_head_x_y'][0], head['width_head_x_y'][1]))
-
-WINDOW_WIDTH = 800
-SIZE = 50
-FPS = 5
-
-dx , dy = 0 , 0
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 
 pygame.init()
@@ -50,11 +17,6 @@ background_color = pygame.Color('black')
 background_color_2 = pygame.Color('white')
 win_title_color = pygame.Color('yellow')
 fail_title_color = pygame.Color('purple')
-snake_color = pygame.Color('green')
-eyes_colors = pygame.Color('white')
-# apple_color = pygame.Color('red')
-# apple_branch_color = pygame.Color('brown')
-# light_reflection_color = pygame.Color('white')
 win_title_text = 'YOU WIN'
 fail_title_text = 'GAME OVER'
 
@@ -75,12 +37,11 @@ def get_new_apple_coordinates(snake, width, size):
                 break
     return apple
 
-snake = Snake(x, y)
-
+snake = snake.Snake(x, y)
+print(snake.segments)
 apple_x, apple_y = get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
 apple = apple.Apple(apple_x, apple_y)
 
-# apple = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
 game_status = 'play'
 
 def win_state():
@@ -107,25 +68,13 @@ def draw_background():
             if j % 100 == 50 and i % 100 == 50:
                 pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
 
-def draw_snake(self, snake_color):
-    for cell in snake:
-        if cell != snake[0] and cell != snake[len(snake)-1]:
-            pygame.draw.rect(screen, snake_color, (cell[0], cell[1], SIZE, SIZE))
-        else:
-            pygame.draw.circle(screen, snake_color, (cell[0] + SIZE / 2, cell[1] + SIZE / 2), int(SIZE / 2), int(SIZE / 2))
-            if len(snake) > 1:
-                head = get_head_offset(dx, dy, snake)
-                tail_styles = get_tail_styles(snake)
-                pygame.draw.rect(screen, snake_color, (snake[len(snake)-1][0] + tail_styles['x_y'][0], snake[len(snake)-1][1] + tail_styles['x_y'][1], tail_styles['width_tail_x_y'][0], tail_styles['width_tail_x_y'][1]))
-                pygame.draw.rect(screen, snake_color, (snake[0][0] + head['x_y'][0], snake[0][1] + head['x_y'][1], head['width_head_x_y'][0], head['width_head_x_y'][1]))
-                
 def restart_music():
     if pygame.mixer.music.get_busy() == False:
         pygame.mixer.music.play()
 
 def play_eat_apple_sound():
     pygame.mixer.Sound('audio/' + str(randrange(0, 3)) + '.ogg').play()
-
+dx, dy = 0, 0
 def control(dx, dy):
     odx, ody = dx, dy
     contr = pygame.key.get_pressed()
@@ -157,13 +106,13 @@ while True:
 
     draw_background()
     # snake.draw()
-    draw_snake()
+    snake.draw(snake.snake_color, screen, SIZE)
 
     # snake.draw()
-    eyes = get_eyes_offset(dy, dx)
+    eyes = snake.get_eyes_offset(snake.dy, snake.dx)
 
     # snake.draw()
-    draw_eyes(eyes, screen, eyes_colors, background_color, snake, eyes_width, pupil_width)
+    snake.draw_eyes(eyes, screen, snake.eyes_colors, background_color, snake.eyes_width, snake.pupil_width)
 
     apple.draw(screen)
 
@@ -171,11 +120,11 @@ while True:
 
     restart_music()
 
-    x += dx * SIZE
-    y += dy * SIZE
+    x += snake.dx * SIZE
+    y += snake.dy * SIZE
 
     next_cell = (x, y)
-    if dx != 0 or dy != 0:
+    if snake.dx != 0 or snake.dy != 0:
         snake = [next_cell] + snake 
         if next_cell == apple.get_coordinates():
             if len(snake) == int(WINDOW_WIDTH / SIZE * WINDOW_WIDTH / SIZE):
@@ -187,9 +136,9 @@ while True:
 
             play_eat_apple_sound()
         else:
-            snake.pop(-1)
+            snake.segments.pop(-1)
 
-    if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_WIDTH - SIZE or len(snake) != len(set(snake)):
+    if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_WIDTH - SIZE or len(snake.segments) != len(set(snake.segments)):
         game_status = 'fail'
         continue
 
