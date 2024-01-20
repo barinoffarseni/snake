@@ -74,7 +74,7 @@ def restart_music():
 def play_eat_apple_sound():
     pygame.mixer.Sound('audio/' + str(randrange(0, 3)) + '.ogg').play()
 
-def control(snake.dx, snake.dy):
+def control(odx, ody):
     odx, ody = snake.dx, snake.dy
     contr = pygame.key.get_pressed()
     if contr [pygame.K_w] and ody != 1:
@@ -122,14 +122,14 @@ while True:
 
     next_cell = (x, y)
     if snake.dx != 0 or snake.dy != 0:
-        snake = [next_cell] + snake 
+        snake.segments = [next_cell] + snake.segments
         if next_cell == apple.get_coordinates():
-            if len(snake) == int(WINDOW_WIDTH / SIZE * WINDOW_WIDTH / SIZE):
+            if len(snake.segments) == int(WINDOW_WIDTH / SIZE * WINDOW_WIDTH / SIZE):
                 game_status = 'win'
                 continue
 
             apple.randomize_branch()
-            apple.x, apple.y = get_new_apple_coordinates(snake, WINDOW_WIDTH, SIZE)
+            apple.x, apple.y = get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
 
             play_eat_apple_sound()
         else:

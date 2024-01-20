@@ -25,8 +25,8 @@ class Snake:
             else:
                 pygame.draw.circle(screen, snake_color, (cell[0] + SIZE / 2, cell[1] + SIZE / 2), int(SIZE / 2), int(SIZE / 2))
                 if len(self.segments) > 1:
-                    head = self.get_head_offset(self, self.dx, self.dy)
-                    tail_styles = self.get_tail_styles(self)
+                    head = self.get_head_offset(self.dx, self.dy)
+                    tail_styles = self.get_tail_styles()
                     pygame.draw.rect(screen, snake_color, (self.segments[len(self.segments)-1][0] + tail_styles['x_y'][0], self.segments[len(self.segments)-1][1] + tail_styles['x_y'][1], tail_styles['width_tail_x_y'][0], tail_styles['width_tail_x_y'][1]))
                     pygame.draw.rect(screen, snake_color, (self.segments[0][0] + head['x_y'][0], self.segments[0][1] + head['x_y'][1], head['width_head_x_y'][0], head['width_head_x_y'][1]))
         
