@@ -38,7 +38,6 @@ def get_new_apple_coordinates(snake, width, size):
     return apple
 
 snake = snake.Snake(x, y)
-print(snake.segments)
 apple_x, apple_y = get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
 apple = apple.Apple(apple_x, apple_y)
 
@@ -74,9 +73,9 @@ def restart_music():
 
 def play_eat_apple_sound():
     pygame.mixer.Sound('audio/' + str(randrange(0, 3)) + '.ogg').play()
-dx, dy = 0, 0
-def control(dx, dy):
-    odx, ody = dx, dy
+
+def control(snake.dx, snake.dy):
+    odx, ody = snake.dx, snake.dy
     contr = pygame.key.get_pressed()
     if contr [pygame.K_w] and ody != 1:
         return 0, -1
@@ -87,7 +86,7 @@ def control(dx, dy):
     if contr [pygame.K_d] and odx != -1:
         return 1, 0
 
-    return dx, dy
+    return snake.dx, snake.dy
 
 while True:
     clock.tick(FPS)
@@ -105,13 +104,11 @@ while True:
         continue
 
     draw_background()
-    # snake.draw()
+    
     snake.draw(snake.snake_color, screen, SIZE)
 
-    # snake.draw()
     eyes = snake.get_eyes_offset(snake.dy, snake.dx)
 
-    # snake.draw()
     snake.draw_eyes(eyes, screen, snake.eyes_colors, background_color, snake.eyes_width, snake.pupil_width)
 
     apple.draw(screen)
@@ -142,4 +139,4 @@ while True:
         game_status = 'fail'
         continue
 
-    dx , dy = control(dx, dy)
+    snake.dx , snake.dy = control(snake.dx, snake.dy)
