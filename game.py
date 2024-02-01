@@ -8,6 +8,7 @@ SIZE = 50
 FPS = 5
 
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
+apple_x, apple_y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
@@ -25,9 +26,11 @@ pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
 
 snake = snake.Snake(x, y)
-apple = apple.Apple(x, y)
+apple = apple.Apple(apple_x, apple_y)
 
 game_status = 'play'
+
+apple.get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
 
 def win_state():
     screen.blit((font.render(win_title_text, 1, win_title_color)), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
