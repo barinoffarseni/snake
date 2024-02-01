@@ -24,22 +24,8 @@ pygame.mixer.init()
 pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
 
-game_status = 'play'
-
-def get_new_apple_coordinates(snake, width, size):
-    generate_again = True
-    while generate_again:
-        apple = randrange(0 ,width, size), randrange(0 ,width, size)
-        generate_again = False
-        for part in snake:
-            if part == apple:
-                generate_again = True
-                break
-    return apple
-
 snake = snake.Snake(x, y)
-apple_x, apple_y = get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
-apple = apple.Apple(apple_x, apple_y)
+apple = apple.Apple(x, y)
 
 game_status = 'play'
 
@@ -123,13 +109,13 @@ while True:
     next_cell = (x, y)
     if snake.dx != 0 or snake.dy != 0:
         snake.segments = [next_cell] + snake.segments
-        if next_cell == apple.get_coordinates():
+        if next_cell == apple.coordinates:
             if len(snake.segments) == int(WINDOW_WIDTH / SIZE * WINDOW_WIDTH / SIZE):
                 game_status = 'win'
                 continue
 
             apple.randomize_branch()
-            apple.x, apple.y = get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
+            apple.x, apple.y = apple.get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
 
             play_eat_apple_sound()
         else:
