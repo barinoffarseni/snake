@@ -10,40 +10,45 @@ class Apple:
     self.coordinates = (self.x, self.y)
     self.styles = {
         'width': (22),
-        'x, y': (25, 25)
+        'x': (25),
+        'y': (25),
     }
     self.light_reflection_color = pygame.Color('white')
     self.light_reflection = {
         'light_reflection_1': {
-            'x, y': (40, 10),
+            'x': (40),
+            'y': (10),
             'width': (5, 10),
         },
         'light_reflection_2': {
-            'x, y': (35, 10),
+            'x': (35),
+            'y': (10),
             'width': (5, 5),
         }
     }
 
     self.branch = {
         'branch_start': {
-            'x, y': (20, 5),
+            'x': (20),
+            'y': (5),
             'width': (10, 10),
         },
         'branch_end': {
-            'x, y': [15, 0],
+            'x': (15),
+            'y': (0),
             'width': (10, 10),
         },
     }
   
   def draw(self,screen):
-    pygame.draw.circle(screen, self.color, (self.coordinates[0] + self.styles['x, y'][0], self.coordinates[1] + self.styles['x, y'][1]), self.styles['width'])
-    pygame.draw.rect(screen, self.light_reflection_color, (self.coordinates[0] + self.light_reflection['light_reflection_1']['x, y'][0], self.coordinates[1] + self.light_reflection['light_reflection_1']['x, y'][1], self.light_reflection['light_reflection_1']['width'][0], self.light_reflection['light_reflection_1']['width'][1]))
-    pygame.draw.rect(screen, self.light_reflection_color, (self.coordinates[0] + self.light_reflection['light_reflection_2']['x, y'][0], self.coordinates[1] + self.light_reflection['light_reflection_2']['x, y'][1], self.light_reflection['light_reflection_2']['width'][0], self.light_reflection['light_reflection_2']['width'][1]))
-    pygame.draw.rect(screen, self.branch_color, (self.coordinates[0] + self.branch['branch_start']['x, y'][0], self.coordinates[1] + self.branch['branch_start']['x, y'][1], self.branch['branch_start']['width'][0], self.branch['branch_start']['width'][1]))
-    pygame.draw.rect(screen, self.branch_color, (self.coordinates[0] + self.branch['branch_end']['x, y'][0], self.coordinates[1] + self.branch['branch_end']['x, y'][1], self.branch['branch_end']['width'][0], self.branch['branch_end']['width'][1]))
+    pygame.draw.circle(screen, self.color, (self.coordinates[0] + self.styles['x'], self.coordinates[1] + self.styles['y']), self.styles['width'])
+    pygame.draw.rect(screen, self.light_reflection_color, (self.coordinates[0] + self.light_reflection['light_reflection_1']['x'], self.coordinates[1] + self.light_reflection['light_reflection_1']['y'], self.light_reflection['light_reflection_1']['width'][0], self.light_reflection['light_reflection_1']['width'][1]))
+    pygame.draw.rect(screen, self.light_reflection_color, (self.coordinates[0] + self.light_reflection['light_reflection_2']['x'], self.coordinates[1] + self.light_reflection['light_reflection_2']['y'], self.light_reflection['light_reflection_2']['width'][0], self.light_reflection['light_reflection_2']['width'][1]))
+    pygame.draw.rect(screen, self.branch_color, (self.coordinates[0] + self.branch['branch_start']['x'], self.coordinates[1] + self.branch['branch_start']['y'], self.branch['branch_start']['width'][0], self.branch['branch_start']['width'][1]))
+    pygame.draw.rect(screen, self.branch_color, (self.coordinates[0] + self.branch['branch_end']['x'], self.coordinates[1] + self.branch['branch_end']['y'], self.branch['branch_end']['width'][0], self.branch['branch_end']['width'][1]))
 
   def randomize_branch(self):
-    self.branch['branch_end']['x, y'][0] = randrange(15, 30, 5)
+    self.branch['branch_end']['x'] = randrange(15, 30, 5)
 
   def get_new_apple_coordinates(self, snake, width, size):
     generate_again = True
