@@ -8,6 +8,9 @@ WINDOW_HIGHT = 800
 SIZE = 50
 FPS = 5
 
+right_border = WINDOW_WIDTH - SIZE
+bottom_border = WINDOW_HIGHT - SIZE
+
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 apple_x, apple_y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 
@@ -93,8 +96,6 @@ while True:
         lose_state()
         continue
 
-
-
     x += snake.dx * SIZE
     y += snake.dy * SIZE
 
@@ -112,13 +113,12 @@ while True:
         else:
             snake.segments.pop(-1)
 
-    if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_HIGHT - SIZE or len(snake.segments) != len(set(snake.segments)):
+    if 0 > x or x > right_border or y < 0 or y > bottom_border or len(snake.segments) != len(set(snake.segments)):
         game_status = 'fail'
         continue
 
     snake.dx , snake.dy = control(snake.dx, snake.dy)
-    print(snake.dx)
-    print(snake.dy)
+
     draw_background()
     
     snake.draw(screen, SIZE)

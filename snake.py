@@ -133,7 +133,6 @@ class Snake:
                 'pupil_x': (15),
                 'pupil_y': (35),
                 'pupil_width': (5, 5)
-
             },
             'right_eye': {
                 'x': (30),
@@ -144,7 +143,7 @@ class Snake:
                 'pupil_width': (5, 5) 
             }
         }
-        
+
         if self.dx == -1:
             self.eyes = {
                 # влево
@@ -197,8 +196,7 @@ class Snake:
                     'eyes_width': (10, 10),
                     'pupil_x': (15),
                     'pupil_y': (10),
-                    'pupil_width': (5, 5) 
-
+                    'pupil_width': (5, 5)
                 },
                 'right_eye': {
                     'x': (30),
@@ -219,7 +217,7 @@ class Snake:
                     'eyes_width': (10, 10),
                     'pupil_x': (15),
                     'pupil_y': (35),
-                    'pupil_width': (5, 5) 
+                    'pupil_width': (5, 5)
                 },
                 'right_eye': {
                     'x': (30),
