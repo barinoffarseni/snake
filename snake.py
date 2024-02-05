@@ -112,8 +112,8 @@ class Snake:
         return self.head
 
     def draw_eyes(self, eyes, screen, background_color):
-        pygame.draw.rect(screen, self.eyes_colors,(self.segments[0][0] + eyes['left_eye']['x, y'][0], self.segments[0][1] + eyes['left_eye']['x, y'][1], self.eyes_width, self.eyes_width))
-        pygame.draw.rect(screen, self.eyes_colors,(self.segments[0][0] + eyes['right_eye']['x, y'][0], self.segments[0][1] + eyes['right_eye']['x, y'][1], self.eyes_width, self.eyes_width))
+        pygame.draw.rect(screen, self.eyes_colors,(self.segments[0][0] + eyes['left_eye']['x, y'][0], self.segments[0][1] + eyes['left_eye']['x, y'][1], eyes['left_eye']['eyes_width'][0], eyes['left_eye']['eyes_width'][1]))
+        pygame.draw.rect(screen, self.eyes_colors,(self.segments[0][0] + eyes['right_eye']['x, y'][0], self.segments[0][1] + eyes['right_eye']['x, y'][1], eyes['right_eye']['eyes_width'][0], eyes['right_eye']['eyes_width'][1]))
         pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['left_eye']['pupil_y_x'][0], self.segments[0][1] + eyes['left_eye']['pupil_y_x'][1], eyes['left_eye']['pupil_width'][0], eyes['left_eye']['pupil_width'][1]))
         pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['right_eye']['pupil_y_x'][0], self.segments[0][1] + eyes['right_eye']['pupil_y_x'][1], eyes['right_eye']['pupil_width'][0], eyes['right_eye']['pupil_width'][0]))
 
@@ -121,12 +121,14 @@ class Snake:
         self.eyes = {
             'left_eye': {
                 'x, y': (10, 30),
+                'eyes_width': (10, 10),
                 'pupil_y_x': (15, 35),
                 'pupil_width': (5, 5)
 
             },
             'right_eye': {
                 'x, y': (30, 30),
+                'eyes_width': (10, 10),
                 'pupil_y_x': (35, 35), 
                 'pupil_width': (5, 5) 
             }
@@ -135,12 +137,14 @@ class Snake:
             self.eyes = {
                 'left_eye': {
                     'x, y': (10, 10),
+                    'eyes_width': (10, 10),
                     'pupil_y_x': (15, 10),
                     'pupil_width': (5, 5) 
 
                 },
                 'right_eye': {
                     'x, y': (30, 10),
+                    'eyes_width': (10, 10),
                     'pupil_y_x': (35, 10),
                     'pupil_width': (5, 5) 
  
@@ -150,11 +154,13 @@ class Snake:
             self.eyes = {
                 'left_eye': {
                     'x, y': (10, 30),
+                    'eyes_width': (10, 10),
                     'pupil_y_x': (15, 35),
                     'pupil_width': (5, 5) 
                 },
                 'right_eye': {
                     'x, y': (30, 30),
+                    'eyes_width': (10, 10),
                     'pupil_y_x': (35, 35),
                     'pupil_width': (5, 5) 
                 }
@@ -163,11 +169,13 @@ class Snake:
             self.eyes = {
                 'left_eye': {
                     'x, y': (10, 10),
+                    'eyes_width': (10, 10),
                     'pupil_y_x': (15, 15),
                     'pupil_width': (5, 5) 
                 },
                 'right_eye': {
                     'x, y': (10, 30),
+                    'eyes_width': (10, 10),
                     'pupil_y_x': (15, 35),
                     'pupil_width': (5, 5)  
                 }
@@ -176,11 +184,13 @@ class Snake:
             self.eyes = {
                 'left_eye': {
                     'x, y': (30, 10),
+                    'eyes_width': (10, 10),
                     'pupil_y_x': (35, 15),
                     'pupil_width': (5, 5) 
                 },
                 'right_eye': {
                     'x, y': (30, 30),
+                    'eyes_width': (10, 10),
                     'pupil_y_x': (35, 35),
                     'pupil_width': (5, 5)
                 }
