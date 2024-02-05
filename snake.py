@@ -26,7 +26,7 @@ class Snake:
                 if len(self.segments) > 1:
                     self.head = self.get_head_offset(self.dx, self.dy)
                     self.tail_styles = self.get_tail_styles()
-                    pygame.draw.rect(screen, self.snake_color, (self.segments[len(self.segments)-1][0] + self.tail_styles['x_y'][0], self.segments[len(self.segments)-1][1] + self.tail_styles['x_y'][1], self.tail_styles['width_tail_x_y'][0], self.tail_styles['width_tail_x_y'][1]))
+                    pygame.draw.rect(screen, self.snake_color, (self.segments[len(self.segments)-1][0] + self.tail_styles['x'], self.segments[len(self.segments)-1][1] + self.tail_styles['y'], self.tail_styles['width_tail_x_y'][0], self.tail_styles['width_tail_x_y'][1]))
                     pygame.draw.rect(screen, self.snake_color, (self.segments[0][0] + self.head['x'], self.segments[0][1] + self.head['y'], self.head['width_head_x_y'][0], self.head['width_head_x_y'][1]))
         
     def get_tail_styles(self):
@@ -36,22 +36,26 @@ class Snake:
         dy = tail[1] - body[1]
         if dx < 0:
             self.tail_styles = {
-                'x_y': (25, 0),
+                'x': (25),
+                'y': (0),
                 'width_tail_x_y': (25, 50)
             }
         if dx > 0:
             self.tail_styles = {
-                'x_y': (0, 0),
+                'x': (0),
+                'y': (0),
                 'width_tail_x_y': (25, 50)
             }
         if dy < 0:
             self.tail_styles = {
-                'x_y': (0, 25),
+                'x': (0),
+                'y': (25),
                 'width_tail_x_y': (50, 25)
             }
         if dy > 0:
             self.tail_styles = {
-                'x_y': (0, 0),
+                'x': (0),
+                'y': (0),
                 'width_tail_x_y': (50, 25)
             }
         return self.tail_styles 
