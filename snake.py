@@ -10,25 +10,24 @@ class Snake:
         self.dy = 0
 
         self.eyes_width = 10
-        self.pupil_width = 5
 
         self.eyes_colors = pygame.Color('white')
         self.snake_color = pygame.Color('green')
 
-    def draw(self, snake_color, screen, SIZE):
-        self.draw_snake(snake_color, screen, SIZE)
+    def draw(self, screen, SIZE):
+        self.draw_snake(screen, SIZE)
     
-    def draw_snake(self, snake_color, screen, SIZE):
+    def draw_snake(self, screen, SIZE):
         for cell in self.segments:
             if cell != self.segments[0] and cell != self.segments[len(self.segments)-1]:
-                pygame.draw.rect(screen, snake_color, (cell[0], cell[1], SIZE, SIZE))
+                pygame.draw.rect(screen, self.snake_color, (cell[0], cell[1], SIZE, SIZE))
             else:
-                pygame.draw.circle(screen, snake_color, (cell[0] + SIZE / 2, cell[1] + SIZE / 2), int(SIZE / 2), int(SIZE / 2))
+                pygame.draw.circle(screen, self.snake_color, (cell[0] + SIZE / 2, cell[1] + SIZE / 2), int(SIZE / 2), int(SIZE / 2))
                 if len(self.segments) > 1:
-                    head = self.get_head_offset(self.dx, self.dy)
-                    tail_styles = self.get_tail_styles()
-                    pygame.draw.rect(screen, snake_color, (self.segments[len(self.segments)-1][0] + tail_styles['x_y'][0], self.segments[len(self.segments)-1][1] + tail_styles['x_y'][1], tail_styles['width_tail_x_y'][0], tail_styles['width_tail_x_y'][1]))
-                    pygame.draw.rect(screen, snake_color, (self.segments[0][0] + head['x_y'][0], self.segments[0][1] + head['x_y'][1], head['width_head_x_y'][0], head['width_head_x_y'][1]))
+                    self.head = self.get_head_offset(self.dx, self.dy)
+                    self.tail_styles = self.get_tail_styles()
+                    pygame.draw.rect(screen, self.snake_color, (self.segments[len(self.segments)-1][0] + self.tail_styles['x_y'][0], self.segments[len(self.segments)-1][1] + self.tail_styles['x_y'][1], self.tail_styles['width_tail_x_y'][0], self.tail_styles['width_tail_x_y'][1]))
+                    pygame.draw.rect(screen, self.snake_color, (self.segments[0][0] + self.head['x_y'][0], self.segments[0][1] + self.head['x_y'][1], self.head['width_head_x_y'][0], self.head['width_head_x_y'][1]))
         
     def get_tail_styles(self):
         tail = self.segments[len(self.segments)-1]
@@ -112,65 +111,78 @@ class Snake:
             }
         return self.head
 
-    def draw_eyes(self, eyes, screen, eyes_colors, background_color, eyes_width, pupil_width):
-        pygame.draw.rect(screen, eyes_colors,(self.segments[0][0] + eyes['left_eye']['x, y'][0], self.segments[0][1] + eyes['left_eye']['x, y'][1], eyes_width, eyes_width))
-        pygame.draw.rect(screen, eyes_colors,(self.segments[0][0] + eyes['right_eye']['x, y'][0], self.segments[0][1] + eyes['right_eye']['x, y'][1], eyes_width, eyes_width))
-        pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['left_eye']['pupil_y_x'][0], self.segments[0][1] + eyes['left_eye']['pupil_y_x'][1], pupil_width, pupil_width))
-        pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['right_eye']['pupil_y_x'][0], self.segments[0][1] + eyes['right_eye']['pupil_y_x'][1], pupil_width, pupil_width))
+    def draw_eyes(self, eyes, screen, background_color):
+        pygame.draw.rect(screen, self.eyes_colors,(self.segments[0][0] + eyes['left_eye']['x, y'][0], self.segments[0][1] + eyes['left_eye']['x, y'][1], self.eyes_width, self.eyes_width))
+        pygame.draw.rect(screen, self.eyes_colors,(self.segments[0][0] + eyes['right_eye']['x, y'][0], self.segments[0][1] + eyes['right_eye']['x, y'][1], self.eyes_width, self.eyes_width))
+        pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['left_eye']['pupil_y_x'][0], self.segments[0][1] + eyes['left_eye']['pupil_y_x'][1], eyes['left_eye']['pupil_width'][0], eyes['left_eye']['pupil_width'][1]))
+        pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['right_eye']['pupil_y_x'][0], self.segments[0][1] + eyes['right_eye']['pupil_y_x'][1], eyes['right_eye']['pupil_width'][0], eyes['right_eye']['pupil_width'][0]))
 
     def get_eyes_offset(self, dx, dy):
         self.eyes = {
             'left_eye': {
-            'x, y': (10, 30),
-            'pupil_y_x': (15, 35) 
+                'x, y': (10, 30),
+                'pupil_y_x': (15, 35),
+                'pupil_width': (5, 5)
+
             },
             'right_eye': {
-            'x, y': (30, 30),
-            'pupil_y_x': (35, 35) 
+                'x, y': (30, 30),
+                'pupil_y_x': (35, 35), 
+                'pupil_width': (5, 5) 
             }
         }
         if dx == -1:
             self.eyes = {
                 'left_eye': {
                     'x, y': (10, 10),
-                    'pupil_y_x': (15, 10) 
+                    'pupil_y_x': (15, 10),
+                    'pupil_width': (5, 5) 
+
                 },
                 'right_eye': {
                     'x, y': (30, 10),
-                    'pupil_y_x': (35, 10) 
+                    'pupil_y_x': (35, 10),
+                    'pupil_width': (5, 5) 
+ 
                 }
             }
         if dx == 1:
             self.eyes = {
                 'left_eye': {
                     'x, y': (10, 30),
-                    'pupil_y_x': (15, 35) 
+                    'pupil_y_x': (15, 35),
+                    'pupil_width': (5, 5) 
                 },
                 'right_eye': {
                     'x, y': (30, 30),
-                    'pupil_y_x': (35, 35) 
+                    'pupil_y_x': (35, 35),
+                    'pupil_width': (5, 5) 
                 }
             }
         if dy == -1:
             self.eyes = {
                 'left_eye': {
                     'x, y': (10, 10),
-                    'pupil_y_x': (15, 15) 
+                    'pupil_y_x': (15, 15),
+                    'pupil_width': (5, 5) 
                 },
                 'right_eye': {
                     'x, y': (10, 30),
-                    'pupil_y_x': (15, 35) 
+                    'pupil_y_x': (15, 35),
+                    'pupil_width': (5, 5)  
                 }
             }
         if dy == 1:
             self.eyes = {
                 'left_eye': {
                     'x, y': (30, 10),
-                    'pupil_y_x': (35, 15) 
+                    'pupil_y_x': (35, 15),
+                    'pupil_width': (5, 5) 
                 },
                 'right_eye': {
                     'x, y': (30, 30),
-                    'pupil_y_x': (35, 35) 
+                    'pupil_y_x': (35, 35),
+                    'pupil_width': (5, 5)
                 }
             }
         return self.eyes

@@ -94,11 +94,11 @@ while True:
 
     draw_background()
     
-    snake.draw(snake.snake_color, screen, SIZE)
+    snake.draw(screen, SIZE)
 
     eyes = snake.get_eyes_offset(snake.dy, snake.dx)
 
-    snake.draw_eyes(eyes, screen, snake.eyes_colors, background_color, snake.eyes_width, snake.pupil_width)
+    snake.draw_eyes(eyes, screen, background_color)
 
     apple.draw(screen)
 
