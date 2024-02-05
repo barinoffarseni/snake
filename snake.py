@@ -124,8 +124,8 @@ class Snake:
     def draw_eyes(self, eyes, screen, background_color):
         pygame.draw.rect(screen, self.eyes_colors,(self.segments[0][0] + eyes['left_eye']['x'], self.segments[0][1] + eyes['left_eye']['y'], eyes['left_eye']['eyes_width'][0], eyes['left_eye']['eyes_width'][1]))
         pygame.draw.rect(screen, self.eyes_colors,(self.segments[0][0] + eyes['right_eye']['x'], self.segments[0][1] + eyes['right_eye']['y'], eyes['right_eye']['eyes_width'][0], eyes['right_eye']['eyes_width'][1]))
-        pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['left_eye']['pupil_y_x'][0], self.segments[0][1] + eyes['left_eye']['pupil_y_x'][1], eyes['left_eye']['pupil_width'][0], eyes['left_eye']['pupil_width'][1]))
-        pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['right_eye']['pupil_y_x'][0], self.segments[0][1] + eyes['right_eye']['pupil_y_x'][1], eyes['right_eye']['pupil_width'][0], eyes['right_eye']['pupil_width'][0]))
+        pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['left_eye']['pupil_x'], self.segments[0][1] + eyes['left_eye']['pupil_y'], eyes['left_eye']['pupil_width'][0], eyes['left_eye']['pupil_width'][1]))
+        pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['right_eye']['pupil_x'], self.segments[0][1] + eyes['right_eye']['pupil_y'], eyes['right_eye']['pupil_width'][0], eyes['right_eye']['pupil_width'][0]))
 
     def get_eyes_offset(self, dx, dy):
         self.eyes = {
@@ -133,7 +133,8 @@ class Snake:
                 'x': (10),
                 'y': (30),
                 'eyes_width': (10, 10),
-                'pupil_y_x': (15, 35),
+                'pupil_x': (15),
+                'pupil_y': (35),
                 'pupil_width': (5, 5)
 
             },
@@ -141,7 +142,8 @@ class Snake:
                 'x': (30),
                 'y': (30),
                 'eyes_width': (10, 10),
-                'pupil_y_x': (35, 35), 
+                'pupil_x': (35),
+                'pupil_y': (35),
                 'pupil_width': (5, 5) 
             }
         }
@@ -151,7 +153,8 @@ class Snake:
                     'x': (10),
                     'y': (10),
                     'eyes_width': (10, 10),
-                    'pupil_y_x': (15, 10),
+                    'pupil_x': (15),
+                    'pupil_y': (10),
                     'pupil_width': (5, 5) 
 
                 },
@@ -159,7 +162,8 @@ class Snake:
                     'x': (30),
                     'y': (10),
                     'eyes_width': (10, 10),
-                    'pupil_y_x': (35, 10),
+                    'pupil_x': (35),
+                    'pupil_y': (10),
                     'pupil_width': (5, 5) 
  
                 }
@@ -170,14 +174,16 @@ class Snake:
                     'x': (10),
                     'y': (30),
                     'eyes_width': (10, 10),
-                    'pupil_y_x': (15, 35),
+                    'pupil_x': (15),
+                    'pupil_y': (35),
                     'pupil_width': (5, 5) 
                 },
                 'right_eye': {
                     'x': (30),
                     'y': (30),
                     'eyes_width': (10, 10),
-                    'pupil_y_x': (35, 35),
+                    'pupil_x': (35),
+                    'pupil_y': (35),
                     'pupil_width': (5, 5) 
                 }
             }
@@ -187,14 +193,16 @@ class Snake:
                     'x': (10),
                     'y': (10),
                     'eyes_width': (10, 10),
-                    'pupil_y_x': (15, 15),
+                    'pupil_x': (15),
+                    'pupil_y': (15),
                     'pupil_width': (5, 5) 
                 },
                 'right_eye': {
                     'x': (10),
                     'y': (30),
                     'eyes_width': (10, 10),
-                    'pupil_y_x': (15, 35),
+                    'pupil_x': (15),
+                    'pupil_y': (35),
                     'pupil_width': (5, 5)  
                 }
             }
@@ -204,14 +212,16 @@ class Snake:
                     'x': (30),
                     'y': (10),
                     'eyes_width': (10, 10),
-                    'pupil_y_x': (35, 15),
+                    'pupil_x': (35),
+                    'pupil_y': (15),
                     'pupil_width': (5, 5) 
                 },
                 'right_eye': {
                     'x': (30),
                     'y': (30),
                     'eyes_width': (10, 10),
-                    'pupil_y_x': (35, 35),
+                    'pupil_x': (35),
+                    'pupil_y': (35),
                     'pupil_width': (5, 5)
                 }
             }
