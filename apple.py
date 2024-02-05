@@ -9,9 +9,9 @@ class Apple:
     self.branch_color = pygame.Color('brown')
     self.coordinates = (self.x, self.y)
     self.styles = {
-        'width': (22),
         'x': (25),
         'y': (25),
+        'width': (22),
     }
     self.light_reflection_color = pygame.Color('white')
     self.light_reflection = {

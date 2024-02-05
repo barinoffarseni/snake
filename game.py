@@ -118,8 +118,7 @@ while True:
                 continue
 
             apple.randomize_branch()
-            apple.x, apple.y = apple.get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
-
+            apple.get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
             play_eat_apple_sound()
         else:
             snake.segments.pop(-1)

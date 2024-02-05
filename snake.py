@@ -11,11 +11,8 @@ class Snake:
 
         self.eyes_colors = pygame.Color('white')
         self.snake_color = pygame.Color('green')
-
-    def draw(self, screen, SIZE):
-        self.draw_snake(screen, SIZE)
     
-    def draw_snake(self, screen, SIZE):
+    def draw(self, screen, SIZE):
         for cell in self.segments:
             if cell != self.segments[0] and cell != self.segments[len(self.segments)-1]:
                 pygame.draw.rect(screen, self.snake_color, (cell[0], cell[1], SIZE, SIZE))
@@ -226,6 +223,3 @@ class Snake:
                 }
             }
         return self.eyes
-
-
-
