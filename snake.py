@@ -186,6 +186,7 @@ class Snake:
             }
         if dy == -1:
             self.eyes = {
+                # 'eyes_width': (10, 10),
                 'left_eye': {
                     'x': (10),
                     'y': (10),

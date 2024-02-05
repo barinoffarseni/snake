@@ -4,6 +4,7 @@ import snake
 from random import randrange
 
 WINDOW_WIDTH = 800
+WINDOW_HIGHT = 800
 SIZE = 50
 FPS = 5
 
@@ -92,19 +93,7 @@ while True:
         lose_state()
         continue
 
-    draw_background()
-    
-    snake.draw(screen, SIZE)
 
-    eyes = snake.get_eyes_offset(snake.dy, snake.dx)
-
-    snake.draw_eyes(eyes, screen, background_color)
-
-    apple.draw(screen)
-
-    pygame.display.flip()
-
-    restart_music()
 
     x += snake.dx * SIZE
     y += snake.dy * SIZE
@@ -123,8 +112,22 @@ while True:
         else:
             snake.segments.pop(-1)
 
-    if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_WIDTH - SIZE or len(snake.segments) != len(set(snake.segments)):
+    if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_HIGHT - SIZE or len(snake.segments) != len(set(snake.segments)):
         game_status = 'fail'
         continue
 
     snake.dx , snake.dy = control(snake.dx, snake.dy)
+
+    draw_background()
+    
+    snake.draw(screen, SIZE)
+
+    eyes = snake.get_eyes_offset(snake.dy, snake.dx)
+
+    snake.draw_eyes(eyes, screen, background_color)
+
+    apple.draw(screen)
+
+    pygame.display.flip()
+
+    restart_music()
