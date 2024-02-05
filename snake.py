@@ -124,7 +124,7 @@ class Snake:
         pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['left_eye']['pupil_x'], self.segments[0][1] + eyes['left_eye']['pupil_y'], eyes['left_eye']['pupil_width'][0], eyes['left_eye']['pupil_width'][1]))
         pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['right_eye']['pupil_x'], self.segments[0][1] + eyes['right_eye']['pupil_y'], eyes['right_eye']['pupil_width'][0], eyes['right_eye']['pupil_width'][0]))
 
-    def get_eyes_offset(self, dx, dy):
+    def get_eyes_offset(self):
         self.eyes = {
             'left_eye': {
                 'x': (10),
@@ -144,49 +144,10 @@ class Snake:
                 'pupil_width': (5, 5) 
             }
         }
-        if dx == -1:
+        
+        if self.dx == -1:
             self.eyes = {
-                'left_eye': {
-                    'x': (10),
-                    'y': (10),
-                    'eyes_width': (10, 10),
-                    'pupil_x': (15),
-                    'pupil_y': (10),
-                    'pupil_width': (5, 5) 
-
-                },
-                'right_eye': {
-                    'x': (30),
-                    'y': (10),
-                    'eyes_width': (10, 10),
-                    'pupil_x': (35),
-                    'pupil_y': (10),
-                    'pupil_width': (5, 5) 
- 
-                }
-            }
-        if dx == 1:
-            self.eyes = {
-                'left_eye': {
-                    'x': (10),
-                    'y': (30),
-                    'eyes_width': (10, 10),
-                    'pupil_x': (15),
-                    'pupil_y': (35),
-                    'pupil_width': (5, 5) 
-                },
-                'right_eye': {
-                    'x': (30),
-                    'y': (30),
-                    'eyes_width': (10, 10),
-                    'pupil_x': (35),
-                    'pupil_y': (35),
-                    'pupil_width': (5, 5) 
-                }
-            }
-        if dy == -1:
-            self.eyes = {
-                # 'eyes_width': (10, 10),
+                # влево
                 'left_eye': {
                     'x': (10),
                     'y': (10),
@@ -204,8 +165,10 @@ class Snake:
                     'pupil_width': (5, 5)  
                 }
             }
-        if dy == 1:
+
+        if self.dx == 1:
             self.eyes = {
+            # в право 
                 'left_eye': {
                     'x': (30),
                     'y': (10),
@@ -223,4 +186,49 @@ class Snake:
                     'pupil_width': (5, 5)
                 }
             }
+
+        if self.dy == -1:
+            self.eyes = {
+                # 'eyes_width': (10, 10),
+                # вверх
+                'left_eye': {
+                    'x': (10),
+                    'y': (10),
+                    'eyes_width': (10, 10),
+                    'pupil_x': (15),
+                    'pupil_y': (10),
+                    'pupil_width': (5, 5) 
+
+                },
+                'right_eye': {
+                    'x': (30),
+                    'y': (10),
+                    'eyes_width': (10, 10),
+                    'pupil_x': (35),
+                    'pupil_y': (10),
+                    'pupil_width': (5, 5) 
+                }
+            }
+
+        if self.dy == 1:
+            self.eyes = {
+                # вниз
+                'left_eye': {
+                    'x': (10),
+                    'y': (30),
+                    'eyes_width': (10, 10),
+                    'pupil_x': (15),
+                    'pupil_y': (35),
+                    'pupil_width': (5, 5) 
+                },
+                'right_eye': {
+                    'x': (30),
+                    'y': (30),
+                    'eyes_width': (10, 10),
+                    'pupil_x': (35),
+                    'pupil_y': (35),
+                    'pupil_width': (5, 5) 
+                }
+            }
+                
         return self.eyes

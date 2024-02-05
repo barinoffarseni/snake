@@ -117,12 +117,13 @@ while True:
         continue
 
     snake.dx , snake.dy = control(snake.dx, snake.dy)
-
+    print(snake.dx)
+    print(snake.dy)
     draw_background()
     
     snake.draw(screen, SIZE)
 
-    eyes = snake.get_eyes_offset(snake.dy, snake.dx)
+    eyes = snake.get_eyes_offset()
 
     snake.draw_eyes(eyes, screen, background_color)
 
