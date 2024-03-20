@@ -50,12 +50,12 @@ class Apple:
   def randomize_branch(self):
     self.branch['branch_end']['x'] = randrange(15, 30, 5)
 
-  def get_new_apple_coordinates(self, snake, width, size):
+  def get_new_apple_coordinates(self, busy_coordinates, width, size):
     generate_again = True
     while generate_again:
         self.coordinates = randrange(0 ,width, size), randrange(0 ,width, size)
         generate_again = False
-        for part in snake:
+        for part in busy_coordinates:
             if part == self.coordinates:
                 generate_again = True
                 break

@@ -118,7 +118,8 @@ class Snake:
             }
         return self.head
 
-    def draw_eyes(self, eyes, screen, background_color):
+    def draw_eyes(self, screen, background_color):
+        eyes = self.get_eyes_offset()
         pygame.draw.rect(screen, self.eyes_colors,(self.segments[0][0] + eyes['left_eye']['x'], self.segments[0][1] + eyes['left_eye']['y'], eyes['left_eye']['eyes_width'][0], eyes['left_eye']['eyes_width'][1]))
         pygame.draw.rect(screen, self.eyes_colors,(self.segments[0][0] + eyes['right_eye']['x'], self.segments[0][1] + eyes['right_eye']['y'], eyes['right_eye']['eyes_width'][0], eyes['right_eye']['eyes_width'][1]))
         pygame.draw.rect(screen, background_color,(self.segments[0][0] + eyes['left_eye']['pupil_x'], self.segments[0][1] + eyes['left_eye']['pupil_y'], eyes['left_eye']['pupil_width'][0], eyes['left_eye']['pupil_width'][1]))
