@@ -12,7 +12,6 @@ right_border = WINDOW_WIDTH - SIZE
 bottom_border = WINDOW_HIGHT - SIZE
 
 x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-apple_x, apple_y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
@@ -30,7 +29,7 @@ pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
 
 snake = snake.Snake(x, y)
-apple = apple.Apple(apple_x, apple_y)
+apple = apple.Apple(WINDOW_WIDTH, SIZE)
 
 game_status = 'play'
 

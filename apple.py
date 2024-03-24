@@ -2,9 +2,9 @@ import pygame
 from random import randrange
 
 class Apple:
-  def __init__(self, x, y):
-    self.x = x
-    self.y = y
+  def __init__(self, width, size):
+    self.x = randrange(0 ,width, size)
+    self.y = randrange(0 ,width, size)
     self.color = pygame.Color('red')
     self.branch_color = pygame.Color('brown')
     self.coordinates = (self.x, self.y)
