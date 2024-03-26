@@ -1,32 +1,22 @@
 import pygame
+import apple
+import snake 
 from random import randrange
 
 WINDOW_WIDTH = 800
+WINDOW_HIGHT = 800
 SIZE = 50
 FPS = 5
 
-def get_new_apple_coordinates(snake):
-    generate_again = True
-    while generate_again:
-        apple = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-        generate_again = False
-        for part in snake:
-            if part == apple:
-                generate_again = True
-                break
-    return apple 
-
-dx , dy = 0 , 0
-x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-snake = [(x , y)]
+right_border = WINDOW_WIDTH - SIZE
+bottom_border = WINDOW_HIGHT - SIZE
 
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
 clock = pygame.time.Clock()
 font = pygame.font.SysFont('arial', 66, bold=True)
 background_color = pygame.Color('black')
-snake_color = pygame.Color('green')
-apple_color = pygame.Color('red')
+background_color_2 = pygame.Color('white')
 win_title_color = pygame.Color('yellow')
 fail_title_color = pygame.Color('purple')
 win_title_text = 'YOU WIN'
@@ -36,65 +26,104 @@ pygame.mixer.init()
 pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
 
-apple = get_new_apple_coordinates(snake)
+snake = snake.Snake(WINDOW_WIDTH, SIZE)
+apple = apple.Apple(WINDOW_WIDTH, SIZE)
+
 game_status = 'play'
+
+apple.get_new_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
+
+def win_state():
+    screen.blit((font.render(win_title_text, 1, win_title_color)), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
+    pygame.display.flip()
+    pygame.mixer.music.load('audio/2.ogg')
+    pygame.mixer.music.play()
+
+def lose_state():
+    screen.blit((font.render(fail_title_text, 1, fail_title_color)), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
+    pygame.display.flip()
+    pygame.mixer.music.set_volume(0.5)
+
+def draw_background():
+    screen.fill(background_color)
+    for i in range(0, WINDOW_WIDTH, SIZE):
+        for j in range(0, WINDOW_WIDTH, SIZE):
+            if i == 0 and j % 100 == 0:
+                pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
+            if j == 50 and i == 50:
+                pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
+            if j % 100 == 0 and i % 100 == 0:
+                pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
+            if j % 100 == 50 and i % 100 == 50:
+                pygame.draw.rect(screen, background_color_2, (i, j, SIZE, SIZE))
+
+def restart_music():
+    if pygame.mixer.music.get_busy() == False:
+        pygame.mixer.music.play()
+
+def play_eat_apple_sound():
+    pygame.mixer.Sound('audio/' + str(randrange(0, 3)) + '.ogg').play()
+
+def control(odx, ody):
+    odx, ody = snake.dx, snake.dy
+    contr = pygame.key.get_pressed()
+    if contr [pygame.K_w] and ody != 1:
+        return 0, -1
+    if contr [pygame.K_s] and ody != -1:
+        return 0, 1
+    if contr [pygame.K_a] and odx != 1:
+        return -1, 0
+    if contr [pygame.K_d] and odx != -1:
+        return 1, 0
+
+    return snake.dx, snake.dy
 
 while True:
     clock.tick(FPS)
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
 
     if game_status == 'win':
-        screen.blit((font.render(win_title_text, 1, win_title_color)), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
-        pygame.display.flip()
-        pygame.mixer.music.load('audio/2.ogg')
-        pygame.mixer.music.play()
+        win_state()
         continue
 
     if game_status == 'fail':
-        screen.blit((font.render(fail_title_text, 1, fail_title_color)), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
-        pygame.display.flip()
-        pygame.mixer.music.set_volume(0.5)
+        lose_state()
         continue
 
-    audio_numbers = randrange(0, 3)
-    screen.fill(background_color)
-    [(pygame.draw.rect(screen, snake_color, (i, j, SIZE, SIZE))) for i, j in snake]
-    pygame.draw.rect(screen, apple_color, (*apple, SIZE, SIZE))
-    pygame.display.flip()
+    snake.x += snake.dx * SIZE
+    snake.y += snake.dy * SIZE
 
-    if pygame.mixer.music.get_busy() == False:
-        pygame.mixer.music.play()
-
-    x += dx * SIZE
-    y += dy * SIZE
-    next_cell = (x, y)
-
-    if dx != 0 or dy != 0:
-        snake = [next_cell] + snake 
-        if next_cell == apple:
-            if len(snake) == int(WINDOW_WIDTH / SIZE * WINDOW_WIDTH / SIZE):
+    next_cell = (snake.x, snake.y)
+    if snake.dx != 0 or snake.dy != 0:
+        snake.segments = [next_cell] + snake.segments
+        if next_cell == apple.coordinates:
+            if len(snake.segments) == int(WINDOW_WIDTH / SIZE * WINDOW_WIDTH / SIZE):
                 game_status = 'win'
                 continue
 
-            apple = get_new_apple_coordinates(snake)
-            pygame.mixer.Sound('audio/' + str(audio_numbers) + '.ogg').play()
+            apple.randomize_branch()
+            apple.get_new_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
+            play_eat_apple_sound()
         else:
-            snake.pop(-1)
+            snake.segments.pop(-1)
 
-    if 0 > x or x > WINDOW_WIDTH - SIZE or y < 0 or y > WINDOW_WIDTH - SIZE or len(snake) != len(set(snake)):
+    if 0 > snake.x or snake.x > right_border or snake.y < 0 or snake.y > bottom_border or len(snake.segments) != len(set(snake.segments)):
         game_status = 'fail'
         continue
 
-    odx, ody = dx, dy
-    contr = pygame.key.get_pressed()
-    if contr [pygame.K_w] and ody != 1:
-        dx , dy = 0 , -1
-    if contr [pygame.K_s] and ody != -1:
-        dx , dy = 0 , 1
-    if contr [pygame.K_a] and odx != 1:
-        dx , dy = -1 , 0
-    if contr [pygame.K_d] and odx != -1:
-        dx , dy = 1 , 0
+    snake.dx , snake.dy = control(snake.dx, snake.dy)
+
+    draw_background()
+    
+    snake.draw(screen, SIZE)
+
+    snake.draw_eyes(screen, background_color)
+
+    apple.draw(screen)
+
+    pygame.display.flip()
+
+    restart_music()
