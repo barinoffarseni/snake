@@ -1,9 +1,10 @@
 import pygame
+from random import randrange
 
 class Snake:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, width, size):
+        self.x = randrange(0, width, size)
+        self.y = randrange(0, width, size)
         self.segments = [(self.x , self.y)]
 
         self.dx = 0

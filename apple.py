@@ -3,8 +3,8 @@ from random import randrange
 
 class Apple:
   def __init__(self, width, size):
-    self.x = randrange(0 ,width, size)
-    self.y = randrange(0 ,width, size)
+    self.x = randrange(0, width, size)
+    self.y = randrange(0, width, size)
     self.color = pygame.Color('red')
     self.branch_color = pygame.Color('brown')
     self.coordinates = (self.x, self.y)
@@ -50,7 +50,7 @@ class Apple:
   def randomize_branch(self):
     self.branch['branch_end']['x'] = randrange(15, 30, 5)
 
-  def get_new_apple_coordinates(self, busy_coordinates, width, size):
+  def get_new_coordinates(self, busy_coordinates, width, size):
     generate_again = True
     while generate_again:
         self.coordinates = randrange(0 ,width, size), randrange(0 ,width, size)

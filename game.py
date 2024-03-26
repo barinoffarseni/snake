@@ -11,8 +11,6 @@ FPS = 5
 right_border = WINDOW_WIDTH - SIZE
 bottom_border = WINDOW_HIGHT - SIZE
 
-x , y = randrange(0 ,WINDOW_WIDTH, SIZE) , randrange(0 ,WINDOW_WIDTH, SIZE)
-
 pygame.init()
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_WIDTH))
 clock = pygame.time.Clock()
@@ -28,12 +26,12 @@ pygame.mixer.init()
 pygame.mixer.music.load('audio/birds.mp3')
 pygame.mixer.music.play()
 
-snake = snake.Snake(x, y)
+snake = snake.Snake(WINDOW_WIDTH, SIZE)
 apple = apple.Apple(WINDOW_WIDTH, SIZE)
 
 game_status = 'play'
 
-apple.get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
+apple.get_new_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
 
 def win_state():
     screen.blit((font.render(win_title_text, 1, win_title_color)), (WINDOW_WIDTH // 2 - 200, WINDOW_WIDTH // 3))
@@ -95,10 +93,10 @@ while True:
         lose_state()
         continue
 
-    x += snake.dx * SIZE
-    y += snake.dy * SIZE
+    snake.x += snake.dx * SIZE
+    snake.y += snake.dy * SIZE
 
-    next_cell = (x, y)
+    next_cell = (snake.x, snake.y)
     if snake.dx != 0 or snake.dy != 0:
         snake.segments = [next_cell] + snake.segments
         if next_cell == apple.coordinates:
@@ -107,12 +105,12 @@ while True:
                 continue
 
             apple.randomize_branch()
-            apple.get_new_apple_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
+            apple.get_new_coordinates(snake.segments, WINDOW_WIDTH, SIZE)
             play_eat_apple_sound()
         else:
             snake.segments.pop(-1)
 
-    if 0 > x or x > right_border or y < 0 or y > bottom_border or len(snake.segments) != len(set(snake.segments)):
+    if 0 > snake.x or snake.x > right_border or snake.y < 0 or snake.y > bottom_border or len(snake.segments) != len(set(snake.segments)):
         game_status = 'fail'
         continue
 
